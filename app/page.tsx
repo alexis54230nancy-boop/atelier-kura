@@ -17,17 +17,17 @@ type CartItem = {
 const products = [
   {
     name: "Transit Hoodie",
-    price: 140,
+    price: 14000,
     desc: "Coton lourd, coupe structurée, noir dense. Pensé pour les trajectoires lentes et les présences nettes.",
   },
   {
     name: "Graphite Tee",
-    price: 65,
+    price: 6500,
     desc: "Jersey épais, teinte minérale, tombé propre. Une base silencieuse pour le quotidien premium.",
   },
   {
     name: "Layer 01",
-    price: 95,
+    price: 9500,
     desc: "Pièce de transition pensée pour la suite : superposition, matière, mouvement et précision visuelle.",
   },
 ];
@@ -35,11 +35,11 @@ const products = [
 export default function Home() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const addToCart = (product: { name: string; price: number }) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.name === product.name);
-
       if (existing) {
         return prev.map((item) =>
           item.name === product.name
@@ -47,59 +47,57 @@ export default function Home() {
             : item
         );
       }
-
       return [...prev, { ...product, quantity: 1 }];
     });
-
     setCartOpen(true);
-  };
-
-  const decreaseQuantity = (name: string) => {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.name === name
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const increaseQuantity = (name: string) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.name === name
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
   };
 
   const removeFromCart = (name: string) => {
     setCart((prev) => prev.filter((item) => item.name !== name));
   };
 
-  const totalItems = useMemo(
-    () => cart.reduce((sum, item) => sum + item.quantity, 0),
-    [cart]
-  );
+  const total = useMemo(() => {
+    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }, [cart]);
 
-  const totalPrice = useMemo(
-    () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cart]
-  );
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ items: cart }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Impossible de lancer le paiement.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Erreur pendant le checkout.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#0b0b0c] text-[#f5f5f2]">
       <Navbar />
 
-      <button
-        onClick={() => setCartOpen(true)}
-        className="fixed right-4 top-24 z-50 rounded-full border border-white/10 bg-black/70 px-4 py-3 text-sm text-white shadow-xl backdrop-blur transition hover:border-white/20 hover:bg-black/80"
-      >
-        Panier ({totalItems})
-      </button>
+      <div className="fixed right-4 top-24 z-50">
+        <button
+          onClick={() => setCartOpen(true)}
+          className="rounded-full border border-white/10 bg-black/60 px-4 py-3 text-sm text-white backdrop-blur"
+        >
+          Panier ({cart.reduce((sum, item) => sum + item.quantity, 0)})
+        </button>
+      </div>
 
       <Hero />
       <Materials />
@@ -132,7 +130,7 @@ export default function Home() {
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="text-base font-semibold">{item.name}</h3>
                     <span className="font-bold text-[#d9d4c7]">
-                      {item.price}€
+                      {(item.price / 100).toFixed(2)}€
                     </span>
                   </div>
 
@@ -141,10 +139,8 @@ export default function Home() {
                   </p>
 
                   <button
-                    onClick={() =>
-                      addToCart({ name: item.name, price: item.price })
-                    }
-                    className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[#d9d4c7] px-5 font-semibold text-black transition hover:-translate-y-[1px] hover:brightness-105"
+                    onClick={() => addToCart({ name: item.name, price: item.price })}
+                    className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[#d9d4c7] px-5 font-semibold text-black transition hover:-translate-y-[1px]"
                   >
                     Ajouter au panier
                   </button>
@@ -164,10 +160,7 @@ export default function Home() {
           <div className="absolute right-0 top-0 h-full w-full max-w-md border-l border-white/10 bg-[#0f0f11] p-6 shadow-2xl">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold">Panier</h2>
-              <button
-                onClick={() => setCartOpen(false)}
-                className="text-white/60 transition hover:text-white"
-              >
+              <button onClick={() => setCartOpen(false)} className="text-white/60">
                 Fermer
               </button>
             </div>
@@ -185,33 +178,17 @@ export default function Home() {
                       <div>
                         <h3 className="font-semibold">{item.name}</h3>
                         <p className="mt-1 text-sm text-white/60">
-                          {item.price}€ / unité
+                          Quantité : {item.quantity}
+                        </p>
+                        <p className="mt-1 text-sm text-white/60">
+                          {(item.price / 100).toFixed(2)}€ / unité
                         </p>
                       </div>
-
                       <button
                         onClick={() => removeFromCart(item.name)}
-                        className="text-sm text-[#d9d4c7] transition hover:text-white"
+                        className="text-sm text-[#d9d4c7]"
                       >
                         Retirer
-                      </button>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-3">
-                      <button
-                        onClick={() => decreaseQuantity(item.name)}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white transition hover:bg-white/[0.08]"
-                      >
-                        -
-                      </button>
-
-                      <span className="min-w-6 text-center">{item.quantity}</span>
-
-                      <button
-                        onClick={() => increaseQuantity(item.name)}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white transition hover:bg-white/[0.08]"
-                      >
-                        +
                       </button>
                     </div>
                   </div>
@@ -222,18 +199,19 @@ export default function Home() {
             <div className="mt-8 border-t border-white/10 pt-6">
               <div className="flex items-center justify-between text-lg">
                 <span>Total</span>
-                <span className="font-semibold">{totalPrice}€</span>
+                <span className="font-semibold">{(total / 100).toFixed(2)}€</span>
               </div>
 
               <p className="mt-3 text-sm text-white/50">
-                Livraison et paiement seront ajoutés à l’étape suivante.
+                Livraison standard France / Luxembourg / Belgique calculée au checkout.
               </p>
 
               <button
-                disabled={cart.length === 0}
-                className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#d9d4c7] px-6 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
+                onClick={handleCheckout}
+                disabled={cart.length === 0 || loading}
+                className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#d9d4c7] px-6 font-semibold text-black disabled:opacity-50"
               >
-                Continuer vers le paiement
+                {loading ? "Redirection..." : "Payer avec Stripe"}
               </button>
             </div>
           </div>
