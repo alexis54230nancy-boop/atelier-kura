@@ -15,7 +15,7 @@ export default function Waitlist() {
         </p>
 
         <form
-          action="COLLE_ICI_TON_LIEN_BREVO"
+          action="https://cd8bef21.sibforms.com/serve/MUIFAJVSeo6fP48jo6DY0qyTt8FNnV8SWloCE0xgzdlkx-D3ZzGDG8MLNOSATrtwgdlQhbb8DIsMmZMOHq9-d4zNuzUJ6RngrcVCW8nSMIoP14nxWFkMm-c0p35plURZtRxSS0WlyEP0KwtWKCqOr0tcgRXwbrSbYb7mJafVUG-gsC0KljFkJeatU_l0lz1hCYLCQWbcXcMs7lrI"
           method="GET"
           target="_blank"
           className="mt-8 flex flex-wrap gap-4"
