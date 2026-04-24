@@ -1,24 +1,30 @@
 import Image from "next/image";
 
-<Image
-  src="/brand/logos/logo.png"
-  alt="Atelier Kūra"
-  width={60}
-  height={60}
-/>
-
-
-
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0c]/80 backdrop-blur">
-      <div className="mx-auto flex min-h-[72px] w-[min(1200px,calc(100%-32px))] items-center justify-between">
-        <div className="flex flex-col uppercase tracking-[0.22em]">
-          <span className="text-sm font-bold text-white">Atelier Kūra</span>
-          <span className="text-[11px] text-white/60">Drop 01 Preview</span>
+      <div className="mx-auto flex min-h-[72px] w-[min(1280px,calc(100%-32px))] items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Image
+            src="/brand/logos/logo.png"
+            alt="Atelier Kūra"
+            width={42}
+            height={42}
+            className="object-contain"
+            priority
+          />
+
+          <div className="flex flex-col leading-none">
+            <span className="text-sm font-semibold tracking-[0.25em] text-white">
+              ATELIER KŪRA
+            </span>
+            <span className="mt-2 text-[10px] tracking-[0.3em] text-white/50">
+              DROP 01
+            </span>
+          </div>
         </div>
 
-        <div className="hidden gap-8 text-sm text-white/70 md:flex">
+        <div className="hidden gap-6 text-sm text-white/70 md:flex">
           <a href="#collection" className="hover:text-white">
             Collection
           </a>
