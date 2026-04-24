@@ -10,11 +10,41 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at top right, rgba(217, 212, 199, 0.08), transparent 28%),
-    linear-gradient(180deg, #0a0a0b 0%, #0d0d0f 100%);
+  background: #0b0b0c;
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.88)),
+    url("/brand/backgrounds/sakura.jpg");
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+  animation: kuraBackgroundDrift 24s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+
+@keyframes kuraBackgroundDrift {
+  from {
+    transform: scale(1.04) translate3d(-0.6%, -0.4%, 0);
+    filter: brightness(0.82) saturate(0.82);
+  }
+
+  to {
+    transform: scale(1.09) translate3d(0.6%, 0.4%, 0);
+    filter: brightness(0.68) saturate(0.65);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg {
+    animation: none;
+  }
 }

@@ -22,23 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={`${inter.variable} font-sans antialiased bg-[#0b0b0c] text-[#f5f5f2]`}>
-        <div className="fixed inset-0 -z-10 overflow-hidden bg-[#0b0b0c]">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster="/brand/videos/petals-poster.jpg"
-            className="h-full w-full object-cover opacity-20"
-          >
-            <source src="/brand/videos/petals.mp4" type="video/mp4" />
-          </video>
-
-          <div className="absolute inset-0 bg-black/78" />
-        </div>
-
+      <body
+        className={`${inter.variable} bg-[#0b0b0c] font-sans text-[#f5f5f2] antialiased`}
+      >
+        <div className="site-bg" />
         {children}
       </body>
     </html>
