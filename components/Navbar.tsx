@@ -1,3 +1,14 @@
+import Image from "next/image";
+
+<Image
+  src="/brand/logos/logo.png"
+  alt="Atelier Kūra"
+  width={60}
+  height={60}
+/>
+
+
+
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0c]/80 backdrop-blur">
