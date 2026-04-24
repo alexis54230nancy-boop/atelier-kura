@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0c]/80 backdrop-blur">
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/35 backdrop-blur-xl">
       <div className="mx-auto flex min-h-[72px] w-[min(1280px,calc(100%-32px))] items-center justify-between">
-        <div className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <Image
             src="/brand/logos/logo.png"
             alt="Atelier Kūra"
@@ -22,16 +22,16 @@ export default function Navbar() {
               DROP 01
             </span>
           </div>
-        </div>
+        </a>
 
-        <div className="hidden gap-6 text-sm text-white/70 md:flex">
-          <a href="#collection" className="hover:text-white">
+        <div className="hidden gap-8 text-sm text-white/70 md:flex">
+          <a href="#collection" className="transition hover:text-white">
             Collection
           </a>
-          <a href="#story" className="hover:text-white">
+          <a href="#story" className="transition hover:text-white">
             Histoire
           </a>
-          <a href="#waitlist" className="hover:text-white">
+          <a href="#waitlist" className="transition hover:text-white">
             Waitlist
           </a>
         </div>

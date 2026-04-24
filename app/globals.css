@@ -17,13 +17,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Fond sakura animé */
 .site-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.62)),
+    linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)),
     url("/brand/backgrounds/sakura.jpg");
   background-size: cover;
   background-position: center;
@@ -32,26 +31,25 @@ body {
   will-change: transform, filter;
 }
 
-/* Voile premium pour garder le texte lisible */
 .site-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 20%, rgba(168, 146, 110, 0.10), transparent 28%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.55));
+    radial-gradient(circle at 50% 15%, rgba(168, 146, 110, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
   pointer-events: none;
 }
 
 @keyframes kuraBackgroundDrift {
   from {
     transform: scale(1.04) translate3d(-0.6%, -0.4%, 0);
-    filter: brightness(0.95) saturate(0.82);
+    filter: brightness(0.95) saturate(0.85);
   }
 
   to {
-    transform: scale(1.09) translate3d(0.6%, 0.4%, 0);
-    filter: brightness(0.78) saturate(0.70);
+    transform: scale(1.08) translate3d(0.6%, 0.4%, 0);
+    filter: brightness(0.8) saturate(0.7);
   }
 }
 
