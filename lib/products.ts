@@ -53,7 +53,7 @@ export const products: Product[] = [
       XS: 3,
       S: 5,
       M: 4,
-      L: 0,
+      L: 15,
       XL: 2,
     },
   },

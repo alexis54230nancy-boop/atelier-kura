@@ -1,27 +1,7 @@
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-
-const products = [
-  {
-    name: "Transit Hoodie",
-    price: "140,00€",
-    href: "/produit/transit-hoodie",
-    desc: "Hoodie lourd, noir dense, coupe structurée.",
-  },
-  {
-    name: "Graphite Tee",
-    price: "65,00€",
-    href: "/produit/graphite-tee",
-    desc: "Tee épais, teinte graphite, silhouette minimale.",
-  },
-  {
-    name: "Layer 01",
-    price: "95,00€",
-    href: "/produit/layer-01",
-    desc: "Pièce de transition, matière calme, présence nette.",
-  },
-];
+import { formatPrice, products } from "../../lib/products";
 
 export default function ShopPage() {
   return (
@@ -48,8 +28,8 @@ export default function ShopPage() {
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {products.map((product) => (
               <Link
-                key={product.name}
-                href={product.href}
+                key={product.slug}
+                href={`/produit/${product.slug}`}
                 className="group overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-[#A8926E]/40 hover:bg-white/[0.055]"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-black/25">
@@ -62,7 +42,7 @@ export default function ShopPage() {
                 <div className="p-6">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h2 className="text-lg font-semibold tracking-[-0.03em]">
+                      <h2 className="text-lg font-semibold tracking-[-0.03em] transition group-hover:text-[#d9d4c7]">
                         {product.name}
                       </h2>
                       <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#A8926E]">
@@ -71,12 +51,12 @@ export default function ShopPage() {
                     </div>
 
                     <span className="font-semibold text-[#F2EFE8]">
-                      {product.price}
+                      {formatPrice(product.price)}
                     </span>
                   </div>
 
                   <p className="mt-4 text-sm leading-6 text-white/60">
-                    {product.desc}
+                    {product.shortDescription}
                   </p>
                 </div>
               </Link>
