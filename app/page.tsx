@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Story from "../components/Story";
@@ -17,16 +18,19 @@ const products = [
   {
     name: "Transit Hoodie",
     price: 14000,
+    href: "/produit/transit-hoodie",
     desc: "Coton lourd, coupe structurée, noir dense. Pensé pour les trajectoires lentes et les présences nettes.",
   },
   {
     name: "Graphite Tee",
     price: 6500,
+    href: "/produit/graphite-tee",
     desc: "Jersey épais, teinte minérale, tombé propre. Une base silencieuse pour le quotidien premium.",
   },
   {
     name: "Layer 01",
     price: 9500,
+    href: "/produit/layer-01",
     desc: "Pièce de transition pensée pour la suite : superposition, matière, mouvement et précision visuelle.",
   },
 ];
@@ -39,7 +43,6 @@ export default function Home() {
   const addToCart = (product: { name: string; price: number }) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.name === product.name);
-
       if (existing) {
         return prev.map((item) =>
           item.name === product.name
@@ -47,7 +50,6 @@ export default function Home() {
             : item
         );
       }
-
       return [...prev, { ...product, quantity: 1 }];
     });
 
@@ -166,23 +168,27 @@ export default function Home() {
                 key={item.name}
                 className="group overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-[#A8926E]/40 hover:bg-white/[0.055]"
               >
-                <div className="relative aspect-[4/5] overflow-hidden bg-black/25">
-                  <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40 transition duration-500 group-hover:scale-[1.03]" />
-                  <div className="absolute left-5 top-5 text-[10px] uppercase tracking-[0.24em] text-white/45">
-                    Atelier Kūra
+                <Link href={item.href} className="block">
+                  <div className="relative aspect-[4/5] overflow-hidden bg-black/25">
+                    <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40 transition duration-500 group-hover:scale-[1.03]" />
+                    <div className="absolute left-5 top-5 text-[10px] uppercase tracking-[0.24em] text-white/45">
+                      Atelier Kūra
+                    </div>
                   </div>
-                </div>
+                </Link>
 
                 <div className="p-6">
                   <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg font-semibold tracking-[-0.03em]">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#A8926E]">
-                        Drop 01
-                      </p>
-                    </div>
+                    <Link href={item.href}>
+                      <div>
+                        <h3 className="text-lg font-semibold tracking-[-0.03em] transition hover:text-[#d9d4c7]">
+                          {item.name}
+                        </h3>
+                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#A8926E]">
+                          Voir le produit
+                        </p>
+                      </div>
+                    </Link>
 
                     <span className="font-semibold text-[#F2EFE8]">
                       {(item.price / 100).toFixed(2)}€
