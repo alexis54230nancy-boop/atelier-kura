@@ -25,9 +25,13 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <div className="hidden gap-8 text-sm text-white/70 md:flex">
+        <div className="hidden gap-7 text-sm text-white/70 md:flex">
           <Link href="/shop" className="transition hover:text-white">
             Shop
+          </Link>
+
+          <Link href="/capsule" className="transition hover:text-white">
+            Capsule
           </Link>
 
           <Link href="/story" className="transition hover:text-white">
@@ -36,6 +40,10 @@ export default function Navbar() {
 
           <Link href="/fabrication" className="transition hover:text-white">
             Fabrication
+          </Link>
+
+          <Link href="/futures" className="transition hover:text-white">
+            Futures
           </Link>
 
           <Link href="/#waitlist" className="transition hover:text-white">
