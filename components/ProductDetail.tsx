@@ -12,7 +12,9 @@ export default function ProductDetail({ product }: { product: Product }) {
   const [selectedSize, setSelectedSize] = useState<Size | "">("");
 
   const selectedStock = selectedSize ? product.stock[selectedSize] : null;
-  const canAdd = Boolean(selectedSize && selectedStock !== null && selectedStock > 0);
+  const canAdd = Boolean(
+    selectedSize && selectedStock !== null && selectedStock > 0
+  );
 
   return (
     <main className="min-h-screen text-[#f5f5f2]">
@@ -109,13 +111,16 @@ export default function ProductDetail({ product }: { product: Product }) {
                 <strong className="text-white">Composition :</strong>{" "}
                 {product.composition}
               </p>
+
               <p>
                 <strong className="text-white">Coupe :</strong> {product.cut}
               </p>
+
               <p>
                 <strong className="text-white">Détails :</strong>{" "}
                 {product.details}
               </p>
+
               <p>
                 <strong className="text-white">Livraison :</strong> France,
                 Luxembourg, Belgique.
