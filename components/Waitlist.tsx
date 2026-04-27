@@ -1,17 +1,23 @@
+"use client";
+
+import { useI18n } from "./LanguageProvider";
+
 export default function Waitlist() {
+  const { t } = useI18n();
+
   return (
     <section id="waitlist" className="px-4 py-8">
-      <div className="mx-auto w-[min(1200px,100%)] rounded-[28px] border border-white/10 bg-white/[0.02] p-8 shadow-2xl md:p-10">
+      <div className="mx-auto w-[min(1200px,100%)] rounded-[28px] border border-white/10 bg-white/[0.02] p-8 shadow-2xl transition duration-500 hover:border-white/15 hover:bg-white/[0.03] md:p-10">
         <div className="text-[12px] uppercase tracking-[0.2em] text-[#d9d4c7]">
-          Waitlist
+          {t("waitlist.eyebrow")}
         </div>
 
         <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] md:text-5xl">
-          Accès anticipé au Drop 01.
+          {t("waitlist.title")}
         </h2>
 
         <p className="mt-4 max-w-[62ch] text-base leading-8 text-white/70">
-          Rejoins la liste privée pour être averti avant l’ouverture.
+          {t("waitlist.text")}
         </p>
 
         <form
@@ -24,15 +30,15 @@ export default function Waitlist() {
             type="email"
             name="email"
             required
-            placeholder="Votre email"
-            className="min-h-12 min-w-[280px] rounded-full border border-white/10 bg-black/40 px-5 text-white outline-none placeholder:text-white/40"
+            placeholder={t("waitlist.placeholder")}
+            className="min-h-12 min-w-[280px] rounded-full border border-white/10 bg-black/40 px-5 text-white outline-none transition placeholder:text-white/40 focus:border-[#A8926E]/50"
           />
 
           <button
             type="submit"
-            className="min-h-12 rounded-full bg-[#d9d4c7] px-6 font-semibold text-black transition hover:-translate-y-[1px]"
+            className="min-h-12 rounded-full bg-[#d9d4c7] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[1px] hover:brightness-105"
           >
-            Rejoindre
+            {t("waitlist.button")}
           </button>
         </form>
       </div>

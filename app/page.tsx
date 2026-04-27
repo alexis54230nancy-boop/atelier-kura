@@ -22,29 +22,26 @@ export default function Home() {
         <div className="mx-auto grid w-[min(1280px,100%)] gap-7 md:grid-cols-[1.15fr_.85fr]">
           <div className="rounded-[32px] border border-white/10 bg-white/[0.035] p-8 shadow-2xl backdrop-blur-xl md:p-10">
             <div className="text-[11px] uppercase tracking-[0.28em] text-[#d9d4c7]">
-              Matière
+              {t("home.materialEyebrow")}
             </div>
 
             <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.055em] md:text-6xl">
-              Texture, tenue, gravité.
+              {t("home.materialTitle")}
             </h2>
 
             <p className="mt-6 max-w-[68ch] text-base leading-8 text-white/70">
-              La matière n’est pas un décor. Elle donne le rythme, la présence,
-              la chute. Atelier Kūra travaille une esthétique dense, tactile,
-              nette — avec des tons sobres, des volumes calmes et des finitions
-              propres.
+              {t("home.materialText")}
             </p>
 
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {[
-                ["450 GSM", "Hoodie lourd"],
-                ["240 GSM", "Tee structuré"],
-                ["Drop 01", "Série limitée"],
+                ["450 GSM", t("home.materialCard1")],
+                ["240 GSM", t("home.materialCard2")],
+                ["Drop 01", t("home.materialCard3")],
               ].map(([title, text]) => (
                 <div
                   key={title}
-                  className="rounded-[20px] border border-white/10 bg-black/30 p-5 backdrop-blur-md"
+                  className="rounded-[20px] border border-white/10 bg-black/30 p-5 backdrop-blur-md transition duration-300 hover:-translate-y-[2px] hover:border-[#A8926E]/30 hover:bg-black/40"
                 >
                   <strong className="block text-2xl text-white">{title}</strong>
                   <span className="mt-2 block text-sm text-white/55">
@@ -56,7 +53,13 @@ export default function Home() {
           </div>
 
           <div className="min-h-[360px] rounded-[32px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl">
-            <div className="h-full rounded-[24px] border border-white/10 bg-black/25" />
+            <div className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-black/25">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_20%,rgba(168,146,110,0.16),transparent_30%)]" />
+              <div className="absolute inset-x-12 bottom-0 h-[80%] rounded-t-[140px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/35" />
+              <div className="absolute bottom-6 left-6 text-[10px] uppercase tracking-[0.28em] text-white/38">
+                {t("home.materialVisual")}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -66,7 +69,7 @@ export default function Home() {
           <div className="mb-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <div className="text-[11px] uppercase tracking-[0.28em] text-[#d9d4c7]">
-                Collection
+                {t("home.collectionEyebrow")}
               </div>
 
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.055em] md:text-6xl">
@@ -75,8 +78,7 @@ export default function Home() {
             </div>
 
             <p className="max-w-xl text-sm leading-7 text-white/65">
-              Une capsule courte, pensée comme un premier manifeste. Peu de
-              références, une exécution précise, une esthétique durable.
+              {t("home.collectionText")}
             </p>
           </div>
 
@@ -87,6 +89,7 @@ export default function Home() {
                 item.shortDescription,
                 language
               );
+              const visualLabel = getLocalizedText(item.visualLabel, language);
 
               return (
                 <Link
@@ -95,10 +98,14 @@ export default function Home() {
                   className="group overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-[#A8926E]/40 hover:bg-white/[0.055]"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden bg-black/25">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_22%,rgba(168,146,110,0.14),transparent_30%)]" />
                     <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40 transition duration-500 group-hover:scale-[1.03]" />
-
+                    <div className="absolute right-6 top-8 h-20 w-20 rounded-full border border-white/10 bg-white/[0.025]" />
                     <div className="absolute left-5 top-5 text-[10px] uppercase tracking-[0.24em] text-white/45">
                       Atelier Kūra
+                    </div>
+                    <div className="absolute bottom-5 left-5 text-[10px] uppercase tracking-[0.24em] text-white/35">
+                      {visualLabel}
                     </div>
                   </div>
 
