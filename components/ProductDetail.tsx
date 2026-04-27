@@ -4,12 +4,21 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useCart } from "./CartProvider";
+import { useI18n } from "./LanguageProvider";
 import type { Product, Size } from "../lib/products";
-import { formatPrice } from "../lib/products";
+import { formatPrice, getLocalizedText } from "../lib/products";
 
 export default function ProductDetail({ product }: { product: Product }) {
+  const { language, t } = useI18n();
   const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState<Size | "">("");
+
+  const name = getLocalizedText(product.name, language);
+  const visualLabel = getLocalizedText(product.visualLabel, language);
+  const description = getLocalizedText(product.description, language);
+  const composition = getLocalizedText(product.composition, language);
+  const cut = getLocalizedText(product.cut, language);
+  const details = getLocalizedText(product.details, language);
 
   const selectedStock = selectedSize ? product.stock[selectedSize] : null;
   const canAdd = Boolean(
@@ -25,7 +34,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           <div className="rounded-[34px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl">
             <div className="aspect-[4/5] rounded-[28px] border border-white/10 bg-black/30">
               <div className="flex h-full items-center justify-center text-sm uppercase tracking-[0.3em] text-white/35">
-                {product.visualLabel}
+                {visualLabel}
               </div>
             </div>
           </div>
@@ -36,7 +45,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             </div>
 
             <h1 className="mt-4 text-5xl font-semibold tracking-[-0.06em] md:text-7xl">
-              {product.name}
+              {name}
             </h1>
 
             <p className="mt-5 text-2xl font-semibold">
@@ -44,12 +53,12 @@ export default function ProductDetail({ product }: { product: Product }) {
             </p>
 
             <p className="mt-6 max-w-xl text-base leading-8 text-white/68">
-              {product.description}
+              {description}
             </p>
 
             <div className="mt-8">
               <div className="text-sm uppercase tracking-[0.2em] text-white/50">
-                Taille
+                {t("product.size")}
               </div>
 
               <div className="mt-4 flex flex-wrap gap-3">
@@ -61,6 +70,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                   return (
                     <button
                       key={size}
+                      type="button"
                       onClick={() => !isSoldOut && setSelectedSize(typedSize)}
                       disabled={isSoldOut}
                       className={`relative h-11 min-w-14 rounded-full border px-4 text-sm transition ${
@@ -82,17 +92,20 @@ export default function ProductDetail({ product }: { product: Product }) {
               {selectedSize && (
                 <p className="mt-4 text-sm text-white/50">
                   {selectedStock === 0
-                    ? "Cette taille est sold out."
-                    : `${selectedStock} pièce(s) restante(s) en taille ${selectedSize}.`}
+                    ? t("product.sizeSoldOut")
+                    : `${selectedStock} ${t(
+                        "product.remainingPrefix"
+                      )} ${selectedSize}.`}
                 </p>
               )}
             </div>
 
             <button
+              type="button"
               disabled={!canAdd}
               onClick={() =>
                 addToCart({
-                  name: product.name,
+                  name,
                   size: selectedSize,
                   price: product.price,
                 })
@@ -100,30 +113,37 @@ export default function ProductDetail({ product }: { product: Product }) {
               className="mt-9 min-h-14 w-full rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition hover:-translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-40"
             >
               {!selectedSize
-                ? "Choisir une taille"
+                ? t("product.chooseSize")
                 : selectedStock === 0
-                ? "Sold out"
-                : "Ajouter au panier"}
+                ? t("product.soldOut")
+                : t("product.addToCart")}
             </button>
 
             <div className="mt-10 space-y-5 border-t border-white/10 pt-8 text-sm leading-7 text-white/62">
               <p>
-                <strong className="text-white">Composition :</strong>{" "}
-                {product.composition}
+                <strong className="text-white">
+                  {t("product.composition")} :
+                </strong>{" "}
+                {composition}
               </p>
 
               <p>
-                <strong className="text-white">Coupe :</strong> {product.cut}
+                <strong className="text-white">{t("product.cut")} :</strong>{" "}
+                {cut}
               </p>
 
               <p>
-                <strong className="text-white">Détails :</strong>{" "}
-                {product.details}
+                <strong className="text-white">
+                  {t("product.details")} :
+                </strong>{" "}
+                {details}
               </p>
 
               <p>
-                <strong className="text-white">Livraison :</strong> France,
-                Luxembourg, Belgique.
+                <strong className="text-white">
+                  {t("product.shipping")} :
+                </strong>{" "}
+                {t("product.shippingZones")}
               </p>
             </div>
           </div>

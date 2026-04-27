@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductDetail from "../../../components/ProductDetail";
-import { getProductBySlug, products } from "../../../lib/products";
+import {
+  getLocalizedText,
+  getProductBySlug,
+  products,
+} from "../../../lib/products";
 
 type ProductPageProps = {
   params: Promise<{
@@ -28,8 +32,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${product.name} — Atelier Kūra`,
-    description: product.shortDescription,
+    title: `${getLocalizedText(product.name, "fr")} — Atelier Kūra`,
+    description: getLocalizedText(product.shortDescription, "fr"),
   };
 }
 

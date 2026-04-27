@@ -2,22 +2,17 @@ export type Language = "fr" | "en" | "de";
 
 export const defaultLanguage: Language = "fr";
 
-export const languages: Array<{
-  code: Language;
-  label: string;
-  shortLabel: string;
-  flag: string;
-}> = [
+export const languages = [
   { code: "fr", label: "Français", shortLabel: "FR", flag: "🇫🇷" },
   { code: "en", label: "English", shortLabel: "EN", flag: "🇬🇧" },
   { code: "de", label: "Deutsch", shortLabel: "DE", flag: "🇩🇪" },
-];
+] as const;
 
-export function isLanguage(value: string | null | undefined): value is Language {
+export function isLanguage(value: unknown): value is Language {
   return value === "fr" || value === "en" || value === "de";
 }
 
-export const translations: Record<string, Record<Language, string>> = {
+export const translations = {
   "nav.shop": {
     fr: "Shop",
     en: "Shop",
@@ -46,53 +41,7 @@ export const translations: Record<string, Record<Language, string>> = {
   "nav.waitlist": {
     fr: "Waitlist",
     en: "Waitlist",
-    de: "Waitlist",
-  },
-
-  "footer.tagline": {
-    fr: "Vêtements en séries limitées. Présence, précision, silence.",
-    en: "Limited-series garments. Presence, precision, silence.",
-    de: "Kleidung in limitierten Serien. Präsenz, Präzision, Stille.",
-  },
-  "footer.shopTitle": {
-    fr: "Boutique",
-    en: "Shop",
-    de: "Shop",
-  },
-  "footer.houseTitle": {
-    fr: "Maison",
-    en: "House",
-    de: "Haus",
-  },
-  "footer.helpTitle": {
-    fr: "Aide",
-    en: "Help",
-    de: "Hilfe",
-  },
-  "footer.sizeGuide": {
-    fr: "Guide des tailles",
-    en: "Size guide",
-    de: "Größentabelle",
-  },
-  "footer.shipping": {
-    fr: "Livraison",
-    en: "Shipping",
-    de: "Versand",
-  },
-  "footer.returns": {
-    fr: "Retours",
-    en: "Returns",
-    de: "Rückgaben",
-  },
-  "footer.terms": {
-    fr: "CGV",
-    en: "Terms",
-    de: "AGB",
-  },
-  "footer.legal": {
-    fr: "Mentions légales",
-    en: "Legal notice",
-    de: "Impressum",
+    de: "Warteliste",
   },
 
   "language.label": {
@@ -156,8 +105,92 @@ export const translations: Record<string, Record<Language, string>> = {
     en: "Redirecting...",
     de: "Weiterleitung...",
   },
-};
 
-export function translate(language: Language, key: string) {
-  return translations[key]?.[language] ?? translations[key]?.fr ?? key;
+  "shop.eyebrow": {
+    fr: "Boutique",
+    en: "Shop",
+    de: "Shop",
+  },
+  "shop.title": {
+    fr: "Drop 01.",
+    en: "Drop 01.",
+    de: "Drop 01.",
+  },
+  "shop.intro": {
+    fr: "Une première capsule pensée comme un manifeste : peu de pièces, une direction précise, une présence silencieuse.",
+    en: "A first capsule designed as a manifesto: few pieces, a precise direction, a quiet presence.",
+    de: "Eine erste Capsule als Manifest: wenige Stücke, eine klare Richtung, eine stille Präsenz.",
+  },
+  "shop.viewProduct": {
+    fr: "Voir le produit",
+    en: "View product",
+    de: "Produkt ansehen",
+  },
+
+  "product.size": {
+    fr: "Taille",
+    en: "Size",
+    de: "Größe",
+  },
+  "product.chooseSize": {
+    fr: "Choisir une taille",
+    en: "Choose a size",
+    de: "Größe wählen",
+  },
+  "product.soldOut": {
+    fr: "Sold out",
+    en: "Sold out",
+    de: "Ausverkauft",
+  },
+  "product.addToCart": {
+    fr: "Ajouter au panier",
+    en: "Add to cart",
+    de: "In den Warenkorb",
+  },
+  "product.sizeSoldOut": {
+    fr: "Cette taille est sold out.",
+    en: "This size is sold out.",
+    de: "Diese Größe ist ausverkauft.",
+  },
+  "product.remainingPrefix": {
+    fr: "pièce(s) restante(s) en taille",
+    en: "piece(s) left in size",
+    de: "Stück übrig in Größe",
+  },
+  "product.composition": {
+    fr: "Composition",
+    en: "Composition",
+    de: "Zusammensetzung",
+  },
+  "product.cut": {
+    fr: "Coupe",
+    en: "Fit",
+    de: "Schnitt",
+  },
+  "product.details": {
+    fr: "Détails",
+    en: "Details",
+    de: "Details",
+  },
+  "product.shipping": {
+    fr: "Livraison",
+    en: "Shipping",
+    de: "Versand",
+  },
+  "product.shippingZones": {
+    fr: "France, Luxembourg, Belgique.",
+    en: "France, Luxembourg, Belgium.",
+    de: "Frankreich, Luxemburg, Belgien.",
+  },
+
+} as const;
+
+export type TranslationKey = keyof typeof translations;
+
+export function translate(language: Language, key: string): string {
+  if (key in translations) {
+    return translations[key as TranslationKey][language];
+  }
+
+  return key;
 }
