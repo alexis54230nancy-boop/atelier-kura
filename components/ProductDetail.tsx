@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -55,6 +56,11 @@ export default function ProductDetail({ product }: { product: Product }) {
       fr: "Choisis ta taille habituelle pour une coupe fidèle à la silhouette prévue.",
       en: "Choose your usual size for a fit close to the intended silhouette.",
       de: "Wähle deine übliche Größe für eine Passform nahe an der vorgesehenen Silhouette.",
+    },
+    sizeGuide: {
+      fr: "Consulter le guide des tailles",
+      en: "View size guide",
+      de: "Größenguide ansehen",
     },
   };
 
@@ -162,9 +168,18 @@ export default function ProductDetail({ product }: { product: Product }) {
                 </p>
               )}
 
-              <p className="mt-4 text-xs leading-6 text-white/42">
-                {copy.sizeHelp[language]}
-              </p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs leading-6 text-white/42">
+                  {copy.sizeHelp[language]}
+                </p>
+
+                <Link
+                  href="/guide-tailles"
+                  className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A8926E] transition hover:text-[#d9c79c]"
+                >
+                  {copy.sizeGuide[language]}
+                </Link>
+              </div>
             </div>
 
             <button
