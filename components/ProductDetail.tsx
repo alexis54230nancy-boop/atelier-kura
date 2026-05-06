@@ -33,34 +33,34 @@ export default function ProductDetail({ product }: { product: Product }) {
 
   const copy = {
     limitedEdition: {
-      fr: "Édition limitée",
+      fr: "Edition limitee",
       en: "Limited edition",
       de: "Limitierte Edition",
     },
     lowStock: {
-      fr: "Stock limité",
+      fr: "Stock limite",
       en: "Limited stock",
       de: "Limitierter Bestand",
     },
     securePayment: {
-      fr: "Paiement sécurisé Stripe",
+      fr: "Paiement securise Stripe",
       en: "Secure Stripe payment",
       de: "Sichere Stripe-Zahlung",
     },
     shippingNote: {
-      fr: "Expédition suivie après validation de la commande.",
+      fr: "Expedition suivie apres validation de la commande.",
       en: "Tracked shipping after order confirmation.",
-      de: "Sendungsverfolgung nach Bestätigung der Bestellung.",
+      de: "Sendungsverfolgung nach Bestaetigung der Bestellung.",
     },
     sizeHelp: {
-      fr: "Choisis ta taille habituelle pour une coupe fidèle à la silhouette prévue.",
+      fr: "Choisis ta taille habituelle pour une coupe fidele a la silhouette prevue.",
       en: "Choose your usual size for a fit close to the intended silhouette.",
-      de: "Wähle deine übliche Größe für eine Passform nahe an der vorgesehenen Silhouette.",
+      de: "Waehle deine uebliche Groesse fuer eine Passform nahe an der vorgesehenen Silhouette.",
     },
     sizeGuide: {
       fr: "Consulter le guide des tailles",
       en: "View size guide",
-      de: "Größenguide ansehen",
+      de: "Groessenguide ansehen",
     },
   };
 
@@ -68,11 +68,18 @@ export default function ProductDetail({ product }: { product: Product }) {
     if (!canAdd || !selectedSize) return;
 
     addToCart({
+      slug: product.slug,
       name,
       size: selectedSize,
       price: product.price,
     });
   }
+
+  const buttonLabel = !selectedSize
+    ? t("product.chooseSize")
+    : selectedStock === 0
+    ? t("product.soldOut")
+    : t("product.addToCart");
 
   return (
     <main className="min-h-screen text-[#f5f5f2]">
@@ -80,21 +87,21 @@ export default function ProductDetail({ product }: { product: Product }) {
 
       <section className="px-4 py-14">
         <div className="mx-auto grid w-[min(1280px,100%)] gap-8 lg:grid-cols-[1.1fr_.9fr]">
-          <div className="animate-[productFadeIn_700ms_ease-out_both] rounded-[34px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl transition duration-700 hover:border-white/15 hover:bg-white/[0.045]">
+          <div className="rounded-[34px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] border border-white/10 bg-black/30">
               <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/45 backdrop-blur-xl">
                 {product.collection}
               </div>
 
-              <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40 transition duration-700 hover:scale-[1.03]" />
+              <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40" />
 
-              <div className="relative flex h-full items-center justify-center text-sm uppercase tracking-[0.3em] text-white/35 transition duration-700 hover:text-white/45">
+              <div className="relative flex h-full items-center justify-center text-sm uppercase tracking-[0.3em] text-white/35">
                 {visualLabel}
               </div>
             </div>
           </div>
 
-          <div className="animate-[productFadeInUp_800ms_ease-out_120ms_both] rounded-[34px] border border-white/10 bg-white/[0.035] p-8 shadow-2xl backdrop-blur-xl transition duration-700 hover:border-white/15 hover:bg-white/[0.045] md:p-10">
+          <div className="rounded-[34px] border border-white/10 bg-white/[0.035] p-8 shadow-2xl backdrop-blur-xl md:p-10">
             <div className="flex flex-wrap items-center gap-3">
               <div className="text-[11px] uppercase tracking-[0.28em] text-[#A8926E]">
                 {product.collection}
@@ -136,21 +143,22 @@ export default function ProductDetail({ product }: { product: Product }) {
                   const isSelected = selectedSize === typedSize;
                   const isSoldOut = quantity === 0;
 
+                  const baseClasses =
+                    "relative h-11 min-w-14 rounded-full border px-4 text-sm transition duration-300";
+                  const stateClasses = isSelected
+                    ? "border-[#A8926E] bg-[#A8926E]/20 text-white"
+                    : "border-white/10 bg-black/30 text-white";
+                  const interactionClasses = isSoldOut
+                    ? "cursor-not-allowed opacity-35"
+                    : "hover:border-[#A8926E]/60 hover:bg-white/[0.04]";
+
                   return (
                     <button
                       key={size}
                       type="button"
                       onClick={() => !isSoldOut && setSelectedSize(typedSize)}
                       disabled={isSoldOut}
-                      className={`relative h-11 min-w-14 rounded-full border px-4 text-sm transition duration-300 ${
-                        isSelected
-                          ? "border-[#A8926E] bg-[#A8926E]/20 text-white shadow-[0_0_24px_rgba(168,146,110,0.12)]"
-                          : "border-white/10 bg-black/30 text-white"
-                      } ${
-                        isSoldOut
-                          ? "cursor-not-allowed opacity-35"
-                          : "hover:-translate-y-[1px] hover:border-[#A8926E]/60 hover:bg-white/[0.04]"
-                      }`}
+                      className={`${baseClasses} ${stateClasses} ${interactionClasses}`}
                     >
                       {size}
                     </button>
@@ -159,12 +167,10 @@ export default function ProductDetail({ product }: { product: Product }) {
               </div>
 
               {selectedSize && (
-                <p className="mt-4 animate-[productFadeIn_350ms_ease-out_both] text-sm text-white/50">
+                <p className="mt-4 text-sm text-white/50">
                   {selectedStock === 0
                     ? t("product.sizeSoldOut")
-                    : `${selectedStock} ${t(
-                        "product.remainingPrefix"
-                      )} ${selectedSize}.`}
+                    : `${selectedStock} ${t("product.remainingPrefix")} ${selectedSize}.`}
                 </p>
               )}
 
@@ -186,13 +192,9 @@ export default function ProductDetail({ product }: { product: Product }) {
               type="button"
               disabled={!canAdd}
               onClick={handleAddToCart}
-              className="mt-9 min-h-14 w-full rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_18px_60px_rgba(242,239,232,0.13)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+              className="mt-9 min-h-14 w-full rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {!selectedSize
-                ? t("product.chooseSize")
-                : selectedStock === 0
-                ? t("product.soldOut")
-                : t("product.addToCart")}
+              {buttonLabel}
             </button>
 
             <div className="mt-5 grid gap-3 text-xs text-white/50 md:grid-cols-2">
@@ -237,28 +239,6 @@ export default function ProductDetail({ product }: { product: Product }) {
       </section>
 
       <Footer />
-
-      <style jsx global>{`
-        @keyframes productFadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes productFadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(14px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </main>
   );
 }

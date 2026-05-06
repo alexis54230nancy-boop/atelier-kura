@@ -12,6 +12,7 @@ import { useI18n } from "./LanguageProvider";
 
 export type CartItem = {
   id: string;
+  slug: string;
   name: string;
   size: string;
   price: number;
@@ -35,13 +36,13 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | null>(null);
 
+const CART_STORAGE_KEY = "atelier-kura-cart-v2";
+
 export function useCart() {
   const context = useContext(CartContext);
-
   if (!context) {
     throw new Error("useCart must be used inside CartProvider");
   }
-
   return context;
 }
 
@@ -81,27 +82,36 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const savedCart = window.localStorage.getItem("atelier-kura-cart");
-
+      const savedCart = window.localStorage.getItem(CART_STORAGE_KEY);
       if (savedCart) {
-        setCart(JSON.parse(savedCart));
+        const parsed: unknown = JSON.parse(savedCart);
+        if (Array.isArray(parsed)) {
+          const valid = parsed.filter(
+            (item): item is CartItem =>
+              typeof item === "object" &&
+              item !== null &&
+              typeof (item as CartItem).slug === "string" &&
+              typeof (item as CartItem).size === "string" &&
+              typeof (item as CartItem).price === "number" &&
+              typeof (item as CartItem).quantity === "number"
+          );
+          setCart(valid);
+        }
       }
     } catch {
-      window.localStorage.removeItem("atelier-kura-cart");
+      window.localStorage.removeItem(CART_STORAGE_KEY);
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("atelier-kura-cart", JSON.stringify(cart));
+    window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {
     if (!cartOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setCartOpen(false);
-      }
+      if (event.key === "Escape") setCartOpen(false);
     };
 
     document.body.style.overflow = "hidden";
@@ -113,20 +123,21 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     };
   }, [cartOpen]);
 
-  const totalItems = useMemo(() => {
-    return cart.reduce((sum, item) => sum + item.quantity, 0);
-  }, [cart]);
+  const totalItems = useMemo(
+    () => cart.reduce((sum, item) => sum + item.quantity, 0),
+    [cart]
+  );
 
-  const total = useMemo(() => {
-    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  }, [cart]);
+  const total = useMemo(
+    () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    [cart]
+  );
 
   const addToCart = (item: Omit<CartItem, "id" | "quantity">) => {
-    const id = `${item.name}-${item.size}`;
+    const id = `${item.slug}-${item.size}`;
 
     setCart((prev) => {
       const existing = prev.find((cartItem) => cartItem.id === id);
-
       if (existing) {
         return prev.map((cartItem) =>
           cartItem.id === id
@@ -134,7 +145,6 @@ export default function CartProvider({ children }: { children: ReactNode }) {
             : cartItem
         );
       }
-
       return [...prev, { ...item, id, quantity: 1 }];
     });
 
@@ -167,36 +177,31 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
 
+      const payload = {
+        language,
+        items: cart.map((item) => ({
+          slug: item.slug,
+          size: item.size,
+          quantity: item.quantity,
+        })),
+      };
+
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ items: cart }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
-      if (data.url) {
+      if (res.ok && data.url) {
         window.location.href = data.url;
       } else {
-        alert(
-          language === "fr"
-            ? "Impossible de lancer le paiement."
-            : language === "en"
-            ? "Unable to start payment."
-            : "Zahlung konnte nicht gestartet werden."
-        );
+        alert(data?.error || t("cart.checkoutError"));
       }
     } catch (error) {
       console.error(error);
-      alert(
-        language === "fr"
-          ? "Erreur pendant le checkout."
-          : language === "en"
-          ? "Error during checkout."
-          : "Fehler während des Checkouts."
-      );
+      alert(t("cart.checkoutCrash"));
     } finally {
       setLoading(false);
     }
@@ -246,12 +251,10 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                   <div className="text-[10px] uppercase tracking-[0.28em] text-[#A8926E]">
                     Atelier Kūra
                   </div>
-
                   <h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
                     {t("cart.title")}
                   </h2>
                 </div>
-
                 <button
                   type="button"
                   onClick={() => setCartOpen(false)}
@@ -266,7 +269,9 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                   <span className="block text-white/80">
                     {copy.securePayment[language]}
                   </span>
-                  <span className="mt-1 block">{copy.privateCheckout[language]}</span>
+                  <span className="mt-1 block">
+                    {copy.privateCheckout[language]}
+                  </span>
                 </div>
               </div>
             </div>
@@ -290,16 +295,13 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                           <h3 className="font-semibold tracking-[-0.02em]">
                             {item.name}
                           </h3>
-
                           <p className="mt-1 text-sm text-white/60">
                             {t("cart.size")} : {item.size}
                           </p>
-
                           <p className="mt-1 text-sm text-white/60">
                             {formatCartPrice(item.price)} / {t("cart.unit")}
                           </p>
                         </div>
-
                         <button
                           type="button"
                           onClick={() => removeFromCart(item.id)}
@@ -313,7 +315,6 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                         <div className="text-xs uppercase tracking-[0.18em] text-white/35">
                           {copy.quantity[language]}
                         </div>
-
                         <div className="flex items-center gap-3">
                           <button
                             type="button"
@@ -323,11 +324,9 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                           >
                             -
                           </button>
-
                           <span className="min-w-6 text-center">
                             {item.quantity}
                           </span>
-
                           <button
                             type="button"
                             onClick={() => increaseQuantity(item.id)}
@@ -349,12 +348,10 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                 <div className="mb-4 text-[10px] uppercase tracking-[0.28em] text-[#A8926E]">
                   {copy.summary[language]}
                 </div>
-
                 <div className="flex items-center justify-between text-lg">
                   <span>{t("cart.total")}</span>
                   <span className="font-semibold">{formatCartPrice(total)}</span>
                 </div>
-
                 <p className="mt-3 text-sm leading-6 text-white/50">
                   {t("cart.shipping")}
                 </p>
@@ -375,23 +372,12 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
       <style jsx global>{`
         @keyframes cartOverlayIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
-
         @keyframes cartPanelIn {
-          from {
-            opacity: 0;
-            transform: translateX(24px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          from { opacity: 0; transform: translateX(24px); }
+          to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
     </CartContext.Provider>
