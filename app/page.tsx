@@ -32,48 +32,52 @@ export default function Home() {
 
       <Marquee />
 
-      <motion.section {...inView} className="px-4 py-10">
-        <div className="mx-auto grid w-[min(1280px,100%)] gap-7 md:grid-cols-[1.15fr_.85fr]">
-          <div className="rounded-[32px] border border-white/10 bg-white/[0.035] p-8 shadow-2xl backdrop-blur-xl md:p-10">
-            <div className="text-[11px] uppercase tracking-[0.28em] text-[#d9d4c7]">
-              {t("home.materialEyebrow")}
-            </div>
+      {/* ── Material section — open editorial, no cards ── */}
+      <motion.section
+        {...inView}
+        className="px-8 py-20 md:px-14 md:py-28"
+      >
+        {/* Eyebrow rule */}
+        <div className="mb-14 flex items-center gap-6">
+          <span className="shrink-0 text-[9px] uppercase tracking-[0.38em] text-[#A8926E]">
+            {t("home.materialEyebrow")}
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-white/[0.08] to-transparent" />
+        </div>
 
-            <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.045em] md:text-6xl">
+        <div className="grid gap-16 md:grid-cols-[1fr_1px_1fr] md:gap-0">
+          {/* Left: title + text */}
+          <div className="md:pr-16">
+            <h2 className="font-[family-name:var(--font-cormorant)] text-[clamp(2.4rem,5.5vw,5.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
               {t("home.materialTitle")}
             </h2>
-
-            <p className="mt-6 max-w-[68ch] text-base leading-8 text-white/70">
+            <p className="mt-6 text-[15px] leading-[1.88] text-white/45">
               {t("home.materialText")}
             </p>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {[
-                ["450 GSM", t("home.materialCard1")],
-                ["240 GSM", t("home.materialCard2")],
-                ["Drop 01", t("home.materialCard3")],
-              ].map(([title, text]) => (
-                <div
-                  key={title}
-                  className="rounded-[20px] border border-white/10 bg-black/30 p-5 backdrop-blur-md transition duration-300 hover:-translate-y-[2px] hover:border-[#A8926E]/30 hover:bg-black/40"
-                >
-                  <strong className="block text-2xl text-white">{title}</strong>
-                  <span className="mt-2 block text-sm text-white/55">
-                    {text}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="min-h-[360px] rounded-[32px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl">
-            <div className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-black/25">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_20%,rgba(168,146,110,0.16),transparent_30%)]" />
-              <div className="absolute inset-x-12 bottom-0 h-[80%] rounded-t-[140px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/35" />
-              <div className="absolute bottom-6 left-6 text-[10px] uppercase tracking-[0.28em] text-white/38">
-                {t("home.materialVisual")}
+          {/* Vertical divider */}
+          <div className="hidden bg-gradient-to-b from-transparent via-white/[0.07] to-transparent md:block" />
+
+          {/* Right: specs */}
+          <div className="space-y-0 md:pl-16">
+            {[
+              ["450 GSM", t("home.materialCard1")],
+              ["240 GSM", t("home.materialCard2")],
+              ["Drop 01", t("home.materialCard3")],
+            ].map(([spec, desc], i) => (
+              <div
+                key={spec}
+                className={`flex items-baseline justify-between gap-6 py-5 ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
+              >
+                <span className="font-[family-name:var(--font-cormorant)] text-[2rem] font-[300] leading-none tracking-[-0.02em] text-[#f2efe8]/80">
+                  {spec}
+                </span>
+                <span className="max-w-[28ch] text-right text-[13px] leading-relaxed text-white/38">
+                  {desc}
+                </span>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </motion.section>
