@@ -1,13 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Story from "../components/Story";
 import Waitlist from "../components/Waitlist";
 import Footer from "../components/Footer";
+import Marquee from "../components/Marquee";
 import { useI18n } from "../components/LanguageProvider";
 import { formatPrice, getLocalizedText, products } from "../lib/products";
+
+const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+const inView = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 } as const,
+  viewport: { once: true, amount: 0.12 },
+  transition: { duration: 0.6, ease: EASE },
+};
 
 export default function Home() {
   const { language, t } = useI18n();
@@ -18,14 +29,16 @@ export default function Home() {
 
       <Hero />
 
-      <section className="px-4 py-10">
+      <Marquee />
+
+      <motion.section {...inView} className="px-4 py-10">
         <div className="mx-auto grid w-[min(1280px,100%)] gap-7 md:grid-cols-[1.15fr_.85fr]">
           <div className="rounded-[32px] border border-white/10 bg-white/[0.035] p-8 shadow-2xl backdrop-blur-xl md:p-10">
             <div className="text-[11px] uppercase tracking-[0.28em] text-[#d9d4c7]">
               {t("home.materialEyebrow")}
             </div>
 
-            <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.055em] md:text-6xl">
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.045em] md:text-6xl">
               {t("home.materialTitle")}
             </h2>
 
@@ -62,9 +75,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section id="collection" className="px-4 py-10">
+      <motion.section
+        {...inView}
+        transition={{ duration: 0.6, delay: 0.05, ease: EASE }}
+        id="collection"
+        className="px-4 py-10"
+      >
         <div className="mx-auto w-[min(1280px,100%)]">
           <div className="mb-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -72,7 +90,7 @@ export default function Home() {
                 {t("home.collectionEyebrow")}
               </div>
 
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.055em] md:text-6xl">
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] md:text-6xl">
                 Drop 01.
               </h2>
             </div>
@@ -83,7 +101,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
-            {products.map((item) => {
+            {products.map((item, index) => {
               const name = getLocalizedText(item.name, language);
               const shortDescription = getLocalizedText(
                 item.shortDescription,
@@ -92,50 +110,61 @@ export default function Home() {
               const visualLabel = getLocalizedText(item.visualLabel, language);
 
               return (
-                <Link
+                <motion.div
                   key={item.slug}
-                  href={`/produit/${item.slug}`}
-                  className="group overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-[#A8926E]/40 hover:bg-white/[0.055]"
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{
+                    duration: 0.55,
+                    delay: index * 0.1,
+                    ease: EASE,
+                  }}
                 >
-                  <div className="relative aspect-[4/5] overflow-hidden bg-black/25">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_22%,rgba(168,146,110,0.14),transparent_30%)]" />
-                    <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40 transition duration-500 group-hover:scale-[1.03]" />
-                    <div className="absolute right-6 top-8 h-20 w-20 rounded-full border border-white/10 bg-white/[0.025]" />
-                    <div className="absolute left-5 top-5 text-[10px] uppercase tracking-[0.24em] text-white/45">
-                      Atelier Kūra
+                  <Link
+                    href={`/produit/${item.slug}`}
+                    className="group block overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-[#A8926E]/40 hover:bg-white/[0.055] hover:shadow-[0_24px_60px_rgba(168,146,110,0.12)]"
+                  >
+                    <div className="relative aspect-[4/5] overflow-hidden bg-black/25">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_22%,rgba(168,146,110,0.14),transparent_30%)]" />
+                      <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40 transition duration-500 group-hover:scale-[1.04]" />
+                      <div className="absolute right-6 top-8 h-20 w-20 rounded-full border border-white/10 bg-white/[0.025]" />
+                      <div className="absolute left-5 top-5 text-[10px] uppercase tracking-[0.24em] text-white/45">
+                        Atelier Kūra
+                      </div>
+                      <div className="absolute bottom-5 left-5 text-[10px] uppercase tracking-[0.24em] text-white/35">
+                        {visualLabel}
+                      </div>
                     </div>
-                    <div className="absolute bottom-5 left-5 text-[10px] uppercase tracking-[0.24em] text-white/35">
-                      {visualLabel}
-                    </div>
-                  </div>
 
-                  <div className="p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="text-lg font-semibold tracking-[-0.03em] transition group-hover:text-[#d9d4c7]">
-                          {name}
-                        </h3>
+                    <div className="p-6">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h3 className="text-lg font-semibold tracking-[-0.03em] transition group-hover:text-[#d9d4c7]">
+                            {name}
+                          </h3>
 
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#A8926E]">
-                          {t("shop.viewProduct")}
-                        </p>
+                          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#A8926E]">
+                            {t("shop.viewProduct")}
+                          </p>
+                        </div>
+
+                        <span className="font-semibold text-[#F2EFE8]">
+                          {formatPrice(item.price)}
+                        </span>
                       </div>
 
-                      <span className="font-semibold text-[#F2EFE8]">
-                        {formatPrice(item.price)}
-                      </span>
+                      <p className="mt-4 text-sm leading-6 text-white/60">
+                        {shortDescription}
+                      </p>
                     </div>
-
-                    <p className="mt-4 text-sm leading-6 text-white/60">
-                      {shortDescription}
-                    </p>
-                  </div>
-                </Link>
+                  </Link>
+                </motion.div>
               );
             })}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <Story />
       <Waitlist />

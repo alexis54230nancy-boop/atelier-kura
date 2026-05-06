@@ -56,6 +56,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
 
   const copy = {
     securePayment: {
@@ -78,6 +79,11 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       en: "Quantity",
       de: "Menge",
     },
+  };
+
+  const showToast = (message: string) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 4500);
   };
 
   useEffect(() => {
@@ -197,11 +203,11 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       if (res.ok && data.url) {
         window.location.href = data.url;
       } else {
-        alert(data?.error || t("cart.checkoutError"));
+        showToast(data?.error || t("cart.checkoutError"));
       }
     } catch (error) {
       console.error(error);
-      alert(t("cart.checkoutCrash"));
+      showToast(t("cart.checkoutCrash"));
     } finally {
       setLoading(false);
     }
@@ -225,15 +231,6 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-
-      <button
-        type="button"
-        onClick={() => setCartOpen(true)}
-        className="fixed right-4 top-24 z-50 rounded-full border border-white/10 bg-black/50 px-4 py-3 text-sm text-white shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-[1px] hover:border-[#A8926E]/40 hover:bg-black/65"
-        aria-label={t("cart.button")}
-      >
-        {t("cart.button")} ({totalItems})
-      </button>
 
       {cartOpen && (
         <div
@@ -367,6 +364,15 @@ export default function CartProvider({ children }: { children: ReactNode }) {
               </button>
             </div>
           </aside>
+        </div>
+      )}
+
+      {toast && (
+        <div
+          key={toast}
+          className="fixed bottom-6 left-1/2 z-[9999] -translate-x-1/2 animate-[toastIn_250ms_ease-out_both] whitespace-nowrap rounded-2xl border border-white/15 bg-[#0f0f11]/95 px-6 py-3.5 text-sm text-white/90 shadow-2xl backdrop-blur-xl"
+        >
+          {toast}
         </div>
       )}
 

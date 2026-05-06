@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useI18n } from "./LanguageProvider";
+import { useCart } from "./CartProvider";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -18,6 +19,7 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const { t } = useI18n();
+  const { openCart, totalItems } = useCart();
   const [open, setOpen] = useState(false);
 
   return (
@@ -56,8 +58,26 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right: language switcher + hamburger */}
-          <div className="flex items-center gap-4">
+          {/* Right: cart + language + hamburger */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={openCart}
+              aria-label={t("cart.button")}
+              className="relative flex h-9 items-center gap-2 rounded-full border border-white/10 bg-black/30 px-3.5 text-sm text-white/65 backdrop-blur-xl transition hover:border-white/20 hover:text-white"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                <rect x="1" y="4.5" width="12" height="8.5" rx="1.5" stroke="currentColor" strokeWidth="1.15" />
+                <path d="M4 4.5V3.5a3 3 0 0 1 6 0v1" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" />
+              </svg>
+              <span className="hidden sm:inline">{t("cart.button")}</span>
+              {totalItems > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#A8926E] text-[10px] font-bold text-black">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
             <LanguageSwitcher />
 
             <button
@@ -66,15 +86,9 @@ export default function Navbar() {
               aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={open}
             >
-              <span
-                className={`block h-[1.5px] w-5 bg-white/80 transition-all duration-300 ${open ? "translate-y-[6.5px] rotate-45" : ""}`}
-              />
-              <span
-                className={`block h-[1.5px] w-5 bg-white/80 transition-all duration-300 ${open ? "opacity-0" : ""}`}
-              />
-              <span
-                className={`block h-[1.5px] w-5 bg-white/80 transition-all duration-300 ${open ? "-translate-y-[6.5px] -rotate-45" : ""}`}
-              />
+              <span className={`block h-[1.5px] w-5 bg-white/80 transition-all duration-300 ${open ? "translate-y-[6.5px] rotate-45" : ""}`} />
+              <span className={`block h-[1.5px] w-5 bg-white/80 transition-all duration-300 ${open ? "opacity-0" : ""}`} />
+              <span className={`block h-[1.5px] w-5 bg-white/80 transition-all duration-300 ${open ? "-translate-y-[6.5px] -rotate-45" : ""}`} />
             </button>
           </div>
         </div>
@@ -84,7 +98,6 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -95,7 +108,6 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
             />
 
-            {/* Panel */}
             <motion.div
               key="panel"
               initial={{ x: "100%" }}

@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Cormorant_Garamond } from "next/font/google";
 import CartProvider from "../components/CartProvider";
 import LanguageProvider from "../components/LanguageProvider";
+import Cursor from "../components/Cursor";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://atelier--kura.com";
@@ -47,9 +56,11 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${inter.variable} bg-[#0b0b0c] font-sans text-[#f5f5f2] antialiased`}
+        className={`${inter.variable} ${cormorant.variable} bg-[#0b0b0c] font-sans text-[#f5f5f2] antialiased`}
       >
         <div className="site-bg" />
+        <div className="grain" />
+        <Cursor />
 
         <LanguageProvider>
           <CartProvider>{children}</CartProvider>
