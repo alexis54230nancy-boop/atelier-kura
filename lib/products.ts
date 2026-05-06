@@ -9,6 +9,7 @@ export type Product = {
   name: LocalizedText;
   price: number;
   collection: string;
+  image?: string;
   visualLabel: LocalizedText;
   shortDescription: LocalizedText;
   description: LocalizedText;
@@ -115,6 +116,7 @@ export const products: Product[] = [
   },
   {
     slug: "layer-01",
+    image: "/images/layer-01.jpg",
     name: {
       fr: "Layer 01",
       en: "Layer 01",

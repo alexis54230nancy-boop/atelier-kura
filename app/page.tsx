@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -111,18 +112,32 @@ export default function Home() {
                   href={`/produit/${item.slug}`}
                   className="group relative flex min-w-[72vw] flex-col border-r border-white/[0.06] transition duration-500 hover:bg-white/[0.025] md:min-w-0"
                 >
-                  {/* Gradient placeholder */}
-                  <div className="relative flex-1 overflow-hidden bg-black/20">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_18%,rgba(168,146,110,0.13),transparent_35%)]" />
-                    <div className="absolute inset-x-8 bottom-0 h-[85%] rounded-t-[90px] border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-black/50 transition duration-700 group-hover:scale-[1.03]" />
-                    <div className="absolute right-5 top-6 h-14 w-14 rounded-full border border-white/[0.07] bg-white/[0.02]" />
+                  {/* Product visual */}
+                  <div className="relative aspect-[4/5] overflow-hidden bg-black/20">
+                    {item.image ? (
+                      <>
+                        <Image
+                          src={item.image}
+                          alt={name}
+                          fill
+                          sizes="(max-width: 768px) 72vw, 33vw"
+                          className="object-cover object-top transition duration-700 group-hover:scale-[1.03]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      </>
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_18%,rgba(168,146,110,0.13),transparent_35%)]" />
+                        <div className="absolute inset-x-8 bottom-0 h-[85%] rounded-t-[90px] border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-black/50 transition duration-700 group-hover:scale-[1.03]" />
+                        <div className="absolute right-5 top-6 h-14 w-14 rounded-full border border-white/[0.07] bg-white/[0.02]" />
+                      </>
+                    )}
                     <div className="absolute left-4 top-4 text-[9px] uppercase tracking-[0.26em] text-white/35">
                       Atelier Kūra
                     </div>
                     <div className="absolute bottom-4 left-4 text-[9px] uppercase tracking-[0.26em] text-white/30">
                       {visualLabel}
                     </div>
-                    {/* Index number */}
                     <div className="absolute right-4 bottom-4 font-[family-name:var(--font-after)] text-5xl font-light leading-none text-white/[0.06]">
                       0{index + 1}
                     </div>

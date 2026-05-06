@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -88,16 +89,28 @@ export default function ProductDetail({ product }: { product: Product }) {
       <section className="px-4 py-14">
         <div className="mx-auto grid w-[min(1280px,100%)] gap-8 lg:grid-cols-[1.1fr_.9fr]">
           <div className="rounded-[34px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] border border-white/10 bg-black/30">
+            <div className="group relative aspect-[4/5] overflow-hidden rounded-[28px] border border-white/10 bg-black/30">
               <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/45 backdrop-blur-xl">
                 {product.collection}
               </div>
 
-              <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40" />
-
-              <div className="relative flex h-full items-center justify-center text-sm uppercase tracking-[0.3em] text-white/35">
-                {visualLabel}
-              </div>
+              {product.image ? (
+                <Image
+                  src={product.image}
+                  alt={name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 55vw"
+                  className="object-cover object-top transition duration-700 group-hover:scale-[1.03]"
+                  priority
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40" />
+                  <div className="relative flex h-full items-center justify-center text-sm uppercase tracking-[0.3em] text-white/35">
+                    {visualLabel}
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
