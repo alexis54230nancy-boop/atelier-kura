@@ -48,7 +48,7 @@ export default function Home() {
         <div className="grid gap-16 md:grid-cols-[1fr_1px_1fr] md:gap-0">
           {/* Left: title + text */}
           <div className="md:pr-16">
-            <h2 className="font-[family-name:var(--font-cormorant)] text-[clamp(2.4rem,5.5vw,5.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
+            <h2 className="font-[family-name:var(--font-after)] text-[clamp(2.4rem,5.5vw,5.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
               {t("home.materialTitle")}
             </h2>
             <p className="mt-6 text-[15px] leading-[1.88] text-white/45">
@@ -70,7 +70,7 @@ export default function Home() {
                 key={spec}
                 className={`flex items-baseline justify-between gap-6 py-5 ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
               >
-                <span className="font-[family-name:var(--font-cormorant)] text-[2rem] font-[300] leading-none tracking-[-0.02em] text-[#f2efe8]/80">
+                <span className="font-[family-name:var(--font-after)] text-[2rem] font-[300] leading-none tracking-[-0.02em] text-[#f2efe8]/80">
                   {spec}
                 </span>
                 <span className="max-w-[28ch] text-right text-[13px] leading-relaxed text-white/38">
@@ -89,7 +89,7 @@ export default function Home() {
               <div className="text-[10px] uppercase tracking-[0.32em] text-[#A8926E]">
                 {t("home.collectionEyebrow")}
               </div>
-              <h2 className="font-[family-name:var(--font-cormorant)] text-[clamp(3rem,8vw,7rem)] font-light leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
+              <h2 className="font-[family-name:var(--font-after)] text-[clamp(3rem,8vw,7rem)] font-light leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
                 Drop 01.
               </h2>
               <p className="mx-auto max-w-lg text-sm leading-7 text-white/50">
@@ -123,7 +123,7 @@ export default function Home() {
                       {visualLabel}
                     </div>
                     {/* Index number */}
-                    <div className="absolute right-4 bottom-4 font-[family-name:var(--font-cormorant)] text-5xl font-light leading-none text-white/[0.06]">
+                    <div className="absolute right-4 bottom-4 font-[family-name:var(--font-after)] text-5xl font-light leading-none text-white/[0.06]">
                       0{index + 1}
                     </div>
                   </div>

@@ -48,13 +48,13 @@ export default function Story() {
 
       <div className="relative">
         {/* Giant decorative numeral */}
-        <div className="pointer-events-none absolute -left-2 -top-6 select-none font-[family-name:var(--font-cormorant)] text-[12rem] font-[300] italic leading-none text-white/[0.025] md:text-[18rem]">
+        <div className="pointer-events-none absolute -left-2 -top-6 select-none font-[family-name:var(--font-after)] text-[12rem] font-[300] italic leading-none text-white/[0.025] md:text-[18rem]">
           01
         </div>
 
         <motion.blockquote
           {...inV(0.08)}
-          className="relative max-w-4xl font-[family-name:var(--font-cormorant)] text-[clamp(1.65rem,4vw,3.8rem)] font-[300] italic leading-[1.2] tracking-[-0.02em] text-[#f2efe8]/72"
+          className="relative max-w-4xl font-[family-name:var(--font-after)] text-[clamp(1.65rem,4vw,3.8rem)] font-[300] italic leading-[1.2] tracking-[-0.02em] text-[#f2efe8]/72"
         >
           {t("story.quote")}
         </motion.blockquote>
@@ -76,12 +76,12 @@ export default function Story() {
             className="group relative overflow-hidden border-white/[0.06] p-8 transition duration-500 hover:bg-white/[0.018] md:p-10"
           >
             {/* Roman numeral */}
-            <div className="mb-5 font-[family-name:var(--font-cormorant)] text-[11px] italic tracking-[0.15em] text-[#A8926E]/40">
+            <div className="mb-5 font-[family-name:var(--font-after)] text-[11px] italic tracking-[0.15em] text-[#A8926E]/40">
               {num}
             </div>
 
             {/* Value label */}
-            <h3 className="font-[family-name:var(--font-cormorant)] text-[clamp(2rem,4vw,3.2rem)] font-[300] leading-[0.92] tracking-[-0.025em] text-[#f2efe8]">
+            <h3 className="font-[family-name:var(--font-after)] text-[clamp(2rem,4vw,3.2rem)] font-[300] leading-[0.92] tracking-[-0.025em] text-[#f2efe8]">
               {label}
             </h3>
 
@@ -104,7 +104,7 @@ export default function Story() {
       {/* ── ACT 3: Brand text ── */}
       <div className="mt-24 grid gap-x-20 gap-y-12 md:grid-cols-[1fr_1fr] md:items-start">
         <motion.div {...inV(0.05)}>
-          <h2 className="font-[family-name:var(--font-cormorant)] text-[clamp(2.2rem,5vw,4.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
+          <h2 className="font-[family-name:var(--font-after)] text-[clamp(2.2rem,5vw,4.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
             {t("story.title")}
           </h2>
           <motion.div

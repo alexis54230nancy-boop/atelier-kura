@@ -24,7 +24,7 @@ export default function Waitlist() {
 
       {/* Ghost KŪRA behind */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none overflow-hidden">
-        <span className="font-[family-name:var(--font-cormorant)] text-[22vw] font-[300] italic leading-none text-white/[0.022] md:text-[18vw]">
+        <span className="font-[family-name:var(--font-after)] text-[22vw] font-[300] italic leading-none text-white/[0.022] md:text-[18vw]">
           Kūra
         </span>
       </div>
@@ -43,7 +43,7 @@ export default function Waitlist() {
         {/* Title */}
         <motion.h2
           {...inV(0.08)}
-          className="font-[family-name:var(--font-cormorant)] text-[clamp(2.8rem,7vw,6.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]"
+          className="font-[family-name:var(--font-after)] text-[clamp(2.8rem,7vw,6.5rem)] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]"
         >
           {t("waitlist.title")}
         </motion.h2>

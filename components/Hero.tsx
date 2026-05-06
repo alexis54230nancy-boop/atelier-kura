@@ -94,7 +94,7 @@ export default function Hero() {
               {article && (
                 <motion.span
                   {...fade(0.22)}
-                  className="mb-[0.08em] block shrink-0 font-[family-name:var(--font-cormorant)] text-[clamp(1.3rem,2.8vw,3.2rem)] font-[300] italic leading-none tracking-[0.01em] text-[#A8926E]/55"
+                  className="mb-[0.08em] block shrink-0 font-[family-name:var(--font-after)] text-[clamp(1.3rem,2.8vw,3.2rem)] font-[300] italic leading-none tracking-[0.01em] text-[#A8926E]/55"
                 >
                   {article}
                 </motion.span>
@@ -102,7 +102,7 @@ export default function Hero() {
               <div className="overflow-hidden">
                 <motion.h1
                   {...curtain(0.1)}
-                  className="block font-[family-name:var(--font-cormorant)] text-[clamp(4.8rem,13.5vw,14rem)] font-[300] leading-[0.86] tracking-[-0.035em] text-[#f2efe8]"
+                  className="block font-[family-name:var(--font-after)] text-[clamp(4.8rem,13.5vw,14rem)] font-[300] leading-[0.86] tracking-[-0.035em] text-[#f2efe8]"
                 >
                   {word1}
                 </motion.h1>
@@ -121,7 +121,7 @@ export default function Hero() {
               <div className="overflow-hidden">
                 <motion.h1
                   {...curtain(0.24)}
-                  className="block font-[family-name:var(--font-cormorant)] text-[clamp(2.6rem,7vw,7.5rem)] font-[300] italic leading-[0.9] tracking-[-0.01em] text-[#A8926E]"
+                  className="block font-[family-name:var(--font-after)] text-[clamp(2.6rem,7vw,7.5rem)] font-[300] italic leading-[0.9] tracking-[-0.01em] text-[#A8926E]"
                 >
                   {t("hero.titleLine2")}
                 </motion.h1>
@@ -139,7 +139,7 @@ export default function Hero() {
             <div className="overflow-hidden">
               <motion.h1
                 {...curtain(0.36)}
-                className="block font-[family-name:var(--font-cormorant)] text-[clamp(4.8rem,13.5vw,14rem)] font-[300] leading-[0.86] tracking-[-0.035em]"
+                className="block font-[family-name:var(--font-after)] text-[clamp(4.8rem,13.5vw,14rem)] font-[300] leading-[0.86] tracking-[-0.035em]"
               >
                 <span className="text-[#f2efe8]">{word3}</span>
                 {hasDot && (
@@ -223,7 +223,7 @@ export default function Hero() {
                 </div>
 
                 {/* Ghost number */}
-                <div className="absolute bottom-2 right-3 select-none font-[family-name:var(--font-cormorant)] text-[8rem] font-[300] italic leading-none text-white/[0.03]">
+                <div className="absolute bottom-2 right-3 select-none font-[family-name:var(--font-after)] text-[8rem] font-[300] italic leading-none text-white/[0.03]">
                   01
                 </div>
 

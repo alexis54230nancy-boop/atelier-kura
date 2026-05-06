@@ -76,7 +76,7 @@ export default function Footer() {
       <div className="relative mt-16 overflow-hidden">
         <div
           aria-hidden
-          className="select-none whitespace-nowrap font-[family-name:var(--font-cormorant)] text-[22vw] font-[300] italic leading-[0.82] tracking-[-0.04em] text-white/[0.028]"
+          className="select-none whitespace-nowrap font-[family-name:var(--font-after)] text-[22vw] font-[300] italic leading-[0.82] tracking-[-0.04em] text-white/[0.028]"
         >
           Kūra
         </div>
