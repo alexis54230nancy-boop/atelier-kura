@@ -6,97 +6,104 @@ import { useI18n } from "./LanguageProvider";
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
+  initial: { opacity: 0, y: 22 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, delay, ease },
+  transition: { duration: 0.8, delay, ease },
+});
+
+const fadeIn = (delay = 0) => ({
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.9, delay, ease },
 });
 
 export default function Hero() {
   const { t } = useI18n();
 
   return (
-    <section className="px-4 pb-10 pt-16">
-      <div className="mx-auto grid w-[min(1280px,100%)] gap-7 md:grid-cols-2">
-        <motion.div
-          {...fadeUp(0)}
-          className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl transition duration-300 hover:bg-white/[0.05]"
-        >
-          <div className="p-8 md:p-12">
-            <motion.div
-              {...fadeUp(0.08)}
-              className="mb-6 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#d9d4c7]"
-            >
-              <span className="h-px w-10 bg-[#d9d4c7]" />
-              {t("hero.eyebrow")}
-            </motion.div>
+    <section className="relative flex min-h-[92vh] flex-col justify-between overflow-hidden px-6 pb-10 pt-28 md:px-12 md:pt-32">
+      {/* Background radial glow */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(168,146,110,0.07),transparent)]" />
 
-            <motion.h1
-              {...fadeUp(0.15)}
-              className="text-5xl font-semibold leading-[0.95] tracking-[-0.045em] md:text-7xl"
-            >
-              {t("hero.titleLine1")}
-              <br />
-              {t("hero.titleLine2")}
-              <br />
-              {t("hero.titleLine3")}
-            </motion.h1>
+      {/* Top bar */}
+      <motion.div
+        {...fadeIn(0.05)}
+        className="flex items-center justify-between text-[10px] uppercase tracking-[0.32em] text-white/35"
+      >
+        <span>{t("hero.eyebrow")}</span>
+        <span className="hidden md:block">Drop 01 — 2026</span>
+        <span className="flex items-center gap-2">
+          <span className="h-px w-6 bg-white/20" />
+          KŪRA
+        </span>
+      </motion.div>
 
-            <motion.p
-              {...fadeUp(0.25)}
-              className="mt-6 max-w-[58ch] text-base leading-8 text-white/72 md:text-lg"
-            >
-              {t("hero.text")}
-            </motion.p>
-
-            <motion.div {...fadeUp(0.33)} className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="#collection"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#f2efe8] px-6 text-sm font-semibold text-black shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-[1px] hover:brightness-105"
-              >
-                {t("hero.primaryCta")}
-              </a>
-
-              <a
-                href="#waitlist"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 text-sm font-semibold text-white transition duration-300 hover:border-white/30 hover:bg-white/[0.08]"
-              >
-                {t("hero.secondaryCta")}
-              </a>
-            </motion.div>
-
-            <motion.div
-              {...fadeUp(0.4)}
-              className="mt-8 grid gap-4 border-t border-white/10 pt-6 text-sm text-white/65 md:grid-cols-3"
-            >
-              <span>{t("hero.feature1")}</span>
-              <span>{t("hero.feature2")}</span>
-              <span>{t("hero.feature3")}</span>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        <motion.div
+      {/* Giant editorial title */}
+      <div className="relative my-auto py-10 md:py-14">
+        <motion.h1
           {...fadeUp(0.1)}
-          className="relative min-h-[560px] overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.035] shadow-2xl backdrop-blur-xl"
+          className="font-[family-name:var(--font-cormorant)] text-[clamp(4.5rem,14vw,14rem)] font-light leading-[0.88] tracking-[-0.03em] text-[#f2efe8]"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(217,212,199,0.12),transparent_28%)]" />
+          {t("hero.titleLine1")}
+        </motion.h1>
 
-          <div className="absolute bottom-0 right-[8%] h-[88%] w-[78%] max-w-[560px] rounded-t-[34px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/30 shadow-2xl backdrop-blur-md transition duration-700 hover:scale-[1.015]" />
-
-          <div className="absolute right-8 top-8 h-28 w-28 rounded-full border border-white/10 bg-white/[0.025] blur-[1px]" />
-
-          <div className="absolute bottom-6 left-6 max-w-[280px] rounded-[22px] border border-white/10 bg-black/45 p-5 backdrop-blur-xl">
-            <h3 className="text-base font-semibold">{t("hero.cardTitle")}</h3>
-            <p className="mt-2 text-sm leading-6 text-white/72">
-              {t("hero.cardText")}
-            </p>
-          </div>
-
-          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] uppercase tracking-[0.32em] text-white/45">
-            KŪRA
-          </div>
+        <motion.div
+          {...fadeUp(0.18)}
+          className="flex items-baseline gap-6 md:gap-10"
+        >
+          <span className="font-[family-name:var(--font-cormorant)] text-[clamp(4.5rem,14vw,14rem)] font-light italic leading-[0.88] tracking-[-0.03em] text-[#A8926E]">
+            {t("hero.titleLine2")}
+          </span>
+          <span className="hidden h-[0.7em] w-px self-center bg-white/15 md:block" />
+          <p className="hidden max-w-[36ch] text-sm leading-7 text-white/50 md:block">
+            {t("hero.text")}
+          </p>
         </motion.div>
+
+        <motion.h1
+          {...fadeUp(0.26)}
+          className="font-[family-name:var(--font-cormorant)] text-[clamp(4.5rem,14vw,14rem)] font-light leading-[0.88] tracking-[-0.03em] text-[#f2efe8]"
+        >
+          {t("hero.titleLine3")}
+        </motion.h1>
       </div>
+
+      {/* Mobile description */}
+      <motion.p
+        {...fadeIn(0.3)}
+        className="mb-6 max-w-[52ch] text-sm leading-7 text-white/50 md:hidden"
+      >
+        {t("hero.text")}
+      </motion.p>
+
+      {/* Bottom bar */}
+      <motion.div
+        {...fadeUp(0.35)}
+        className="flex flex-col gap-6 border-t border-white/[0.07] pt-7 md:flex-row md:items-center md:justify-between"
+      >
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="#collection"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-6 text-sm font-semibold text-black transition duration-300 hover:-translate-y-[1px] hover:brightness-105"
+          >
+            {t("hero.primaryCta")}
+          </a>
+          <a
+            href="#waitlist"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 text-sm font-semibold text-white transition duration-300 hover:border-white/30 hover:bg-white/[0.08]"
+          >
+            {t("hero.secondaryCta")}
+          </a>
+        </div>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-white/35">
+          <span>{t("hero.feature1")}</span>
+          <span className="hidden text-white/15 md:block">·</span>
+          <span>{t("hero.feature2")}</span>
+          <span className="hidden text-white/15 md:block">·</span>
+          <span>{t("hero.feature3")}</span>
+        </div>
+      </motion.div>
     </section>
   );
 }
