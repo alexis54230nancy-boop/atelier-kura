@@ -2,12 +2,21 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { defaultLanguage, translate, type Language } from "../lib/i18n";
+import {
+  defaultLanguage,
+  isLanguage,
+  translate,
+  type Language,
+} from "../lib/i18n";
+
+const STORAGE_KEY = "kura-language";
 
 type I18nContextType = {
   language: Language;
@@ -22,7 +31,30 @@ export default function LanguageProvider({
 }: {
   children: ReactNode;
 }) {
-  const [language, setLanguage] = useState<Language>(defaultLanguage);
+  const [language, setLanguageState] = useState<Language>(defaultLanguage);
+
+  // Restore from localStorage, fall back to browser language
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && isLanguage(stored)) {
+      setLanguageState(stored);
+      return;
+    }
+    const browserCode = navigator.language.slice(0, 2);
+    if (isLanguage(browserCode)) {
+      setLanguageState(browserCode);
+    }
+  }, []);
+
+  // Keep <html lang> in sync
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem(STORAGE_KEY, lang);
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -30,7 +62,7 @@ export default function LanguageProvider({
       setLanguage,
       t: (key: string) => translate(language, key),
     }),
-    [language]
+    [language, setLanguage]
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

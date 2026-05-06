@@ -6,6 +6,7 @@ import {
   getProductBySlug,
   products,
 } from "../../../lib/products";
+import { defaultLanguage } from "../../../lib/i18n";
 
 type ProductPageProps = {
   params: Promise<{
@@ -32,8 +33,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${getLocalizedText(product.name, "fr")} — Atelier Kūra`,
-    description: getLocalizedText(product.shortDescription, "fr"),
+    title: `${getLocalizedText(product.name, defaultLanguage)} — Atelier Kūra`,
+    description: getLocalizedText(product.shortDescription, defaultLanguage),
   };
 }
 
