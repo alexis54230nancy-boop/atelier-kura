@@ -6,17 +6,23 @@ import { useI18n } from "./LanguageProvider";
 
 const E = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-/* Curtain reveal — text slides up from behind an overflow:hidden parent */
+/* Curtain: text rises from an overflow:hidden parent */
 const curtain = (delay = 0) => ({
-  initial: { y: "108%", opacity: 0 },
+  initial: { y: "106%", opacity: 0 },
   animate: { y: "0%", opacity: 1 },
-  transition: { duration: 1.1, delay, ease: E },
+  transition: { duration: 1.05, delay, ease: E },
 });
 
-const fade = (delay = 0) => ({
+const fade = (delay = 0, duration = 0.9) => ({
   initial: { opacity: 0 },
   animate: { opacity: 1 },
-  transition: { duration: 1.0, delay, ease: E },
+  transition: { duration, delay, ease: E },
+});
+
+const slideUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.85, delay, ease: E },
 });
 
 export default function Hero() {
@@ -28,91 +34,117 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const rawY = useTransform(scrollYProgress, [0, 1], [0, -55]);
-  const titleY = useSpring(rawY, { stiffness: 70, damping: 18 });
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.42], [1, 0]);
+  const rawTY  = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const titleY = useSpring(rawTY, { stiffness: 65, damping: 18 });
+  const titleO = useTransform(scrollYProgress, [0, 0.38], [1, 0]);
 
-  const rawPY = useTransform(scrollYProgress, [0, 1], [0, -22]);
-  const productY = useSpring(rawPY, { stiffness: 70, damping: 18 });
+  const rawPY   = useTransform(scrollYProgress, [0, 1], [0, -20]);
+  const productY = useSpring(rawPY, { stiffness: 65, damping: 18 });
 
-  const rawSO = useTransform(scrollYProgress, [0, 0.14], [1, 0]);
-  const scrollOpacity = useSpring(rawSO, { stiffness: 80, damping: 22 });
+  const rawSO     = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+  const scrollO   = useSpring(rawSO, { stiffness: 80, damping: 22 });
+
+  /* Strip trailing dot → render it in gold */
+  const line3  = t("hero.titleLine3");
+  const hasDot = line3.endsWith(".");
+  const word3  = hasDot ? line3.slice(0, -1) : line3;
+
+  const article = t("hero.titleArticle"); // "Le" in FR, "" in EN/DE
+  const word1   = t("hero.titleWord1");   // "silence" / "Silence" / "Stille"
 
   return (
-    <section
-      ref={ref}
-      className="relative min-h-screen overflow-hidden"
-    >
-      {/* ── Ambient light ── */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_60%_at_72%_55%,rgba(168,146,110,0.07),transparent)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_22%_35%,rgba(168,146,110,0.04),transparent)]" />
+    <section ref={ref} className="relative min-h-screen overflow-hidden">
 
-      {/* ── Structural lines ── */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/[0.04] to-transparent" />
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/[0.04] to-transparent" />
+      {/* ── Ambient glows ── */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_68%_52%,rgba(168,146,110,0.065),transparent)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_35%_45%_at_18%_38%,rgba(168,146,110,0.035),transparent)]" />
 
-      {/* ── Vertical edge label (desktop only) ── */}
-      <div className="absolute left-5 top-1/2 hidden -translate-y-1/2 -rotate-90 select-none text-[8px] uppercase tracking-[0.45em] text-white/15 md:block">
+      {/* ── Structural edge lines ── */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-white/[0.035] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-white/[0.035] to-transparent" />
+
+      {/* ── Rotated side label ── */}
+      <div className="absolute left-5 top-1/2 hidden -translate-y-1/2 -rotate-90 select-none text-[7.5px] uppercase tracking-[0.48em] text-white/12 md:block">
         French limited series
       </div>
 
-      {/* ── Inner layout ── */}
-      <div className="flex min-h-screen flex-col px-8 pt-28 pb-10 md:px-14 md:pt-32">
+      <div className="flex min-h-screen flex-col px-8 pb-10 pt-24 md:px-14 md:pt-28">
 
         {/* Meta bar */}
-        <motion.div
-          {...fade(0.05)}
-          className="flex items-center justify-between"
-        >
-          <span className="text-[9px] uppercase tracking-[0.38em] text-white/25">
-            Atelier Kūra
+        <motion.div {...fade(0.04)} className="flex items-center justify-between">
+          <span className="text-[9px] uppercase tracking-[0.4em] text-white/22">
+            Atelier&thinsp;Kūra
           </span>
-          <span className="text-[9px] uppercase tracking-[0.38em] text-white/20">
-            No.&thinsp;01 / Drop
+          <span className="text-[9px] uppercase tracking-[0.4em] text-white/18">
+            No.&thinsp;01&thinsp;/&thinsp;Drop
           </span>
         </motion.div>
 
-        {/* ── Main: title | product ── */}
-        <div className="mt-auto flex flex-1 flex-col items-center justify-center gap-12 md:flex-row md:items-center md:gap-16">
+        {/* ── Two-column main ── */}
+        <div className="flex flex-1 flex-col justify-center gap-14 md:flex-row md:items-center md:gap-10 md:py-16">
 
-          {/* TITLE BLOCK */}
+          {/* ══ TITLE BLOCK ══ */}
           <motion.div
-            style={{ y: titleY, opacity: titleOpacity }}
-            className="w-full md:w-[55%]"
+            style={{ y: titleY, opacity: titleO }}
+            className="w-full md:w-[58%]"
           >
-            {/* Line 1 — giant */}
-            <div className="overflow-hidden">
-              <motion.h1
-                {...curtain(0.1)}
-                className="block font-[family-name:var(--font-cormorant)] text-[clamp(4rem,12.5vw,13rem)] font-[300] leading-[0.87] tracking-[-0.03em] text-[#f2efe8]"
-              >
-                {t("hero.titleLine1")}
-              </motion.h1>
-            </div>
 
-            {/* Line 2 — annotative, indented, italic gold */}
-            <div className="mt-1 flex items-center gap-4 pl-[8%] md:pl-[14%]">
-              <motion.span
-                {...fade(0.32)}
-                className="h-px w-10 shrink-0 bg-[#A8926E]/40"
-              />
+            {/* Line 1 — article + main word */}
+            <div className="flex items-end gap-3 md:gap-4">
+              {article && (
+                <motion.span
+                  {...fade(0.22)}
+                  className="mb-[0.08em] block shrink-0 font-[family-name:var(--font-cormorant)] text-[clamp(1.3rem,2.8vw,3.2rem)] font-[300] italic leading-none tracking-[0.01em] text-[#A8926E]/55"
+                >
+                  {article}
+                </motion.span>
+              )}
               <div className="overflow-hidden">
                 <motion.h1
-                  {...curtain(0.2)}
-                  className="block font-[family-name:var(--font-cormorant)] text-[clamp(2.6rem,7.5vw,8rem)] font-[300] italic leading-[0.87] tracking-[-0.02em] text-[#A8926E]"
+                  {...curtain(0.1)}
+                  className="block font-[family-name:var(--font-cormorant)] text-[clamp(4.8rem,13.5vw,14rem)] font-[300] leading-[0.86] tracking-[-0.035em] text-[#f2efe8]"
                 >
-                  {t("hero.titleLine2")}
+                  {word1}
                 </motion.h1>
               </div>
             </div>
 
-            {/* Line 3 — giant */}
+            {/* Line 2 — bridge: ——— comme ——— */}
+            <div className="my-2 flex items-center gap-4 pl-[4%] md:pl-[8%]">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.1, delay: 0.32, ease: E }}
+                style={{ originX: 1 }}
+                className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-[#A8926E]/35 to-transparent"
+              />
+              <div className="overflow-hidden">
+                <motion.h1
+                  {...curtain(0.24)}
+                  className="block font-[family-name:var(--font-cormorant)] text-[clamp(2.6rem,7vw,7.5rem)] font-[300] italic leading-[0.9] tracking-[-0.01em] text-[#A8926E]"
+                >
+                  {t("hero.titleLine2")}
+                </motion.h1>
+              </div>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.1, delay: 0.32, ease: E }}
+                style={{ originX: 0 }}
+                className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-[#A8926E]/35 to-transparent"
+              />
+            </div>
+
+            {/* Line 3 — main word + gold dot */}
             <div className="overflow-hidden">
               <motion.h1
-                {...curtain(0.3)}
-                className="block font-[family-name:var(--font-cormorant)] text-[clamp(4rem,12.5vw,13rem)] font-[300] leading-[0.87] tracking-[-0.03em] text-[#f2efe8]"
+                {...curtain(0.36)}
+                className="block font-[family-name:var(--font-cormorant)] text-[clamp(4.8rem,13.5vw,14rem)] font-[300] leading-[0.86] tracking-[-0.035em]"
               >
-                {t("hero.titleLine3")}
+                <span className="text-[#f2efe8]">{word3}</span>
+                {hasDot && (
+                  <span className="text-[#A8926E]">.</span>
+                )}
               </motion.h1>
             </div>
 
@@ -120,42 +152,36 @@ export default function Hero() {
             <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 1.4, delay: 0.55, ease: E }}
+              transition={{ duration: 1.6, delay: 0.58, ease: E }}
               style={{ originX: 0 }}
-              className="mt-6 h-px w-full bg-gradient-to-r from-white/[0.12] to-transparent"
+              className="mt-7 h-px bg-gradient-to-r from-white/[0.1] to-transparent"
             />
 
             {/* Description */}
-            <motion.p
-              {...fade(0.65)}
-              className="mt-6 max-w-[44ch] text-sm leading-7 text-white/42"
-            >
+            <motion.p {...slideUp(0.68)} className="mt-6 max-w-[43ch] text-[14px] leading-[1.9] text-white/40">
               {t("hero.text")}
             </motion.p>
 
             {/* CTAs */}
-            <motion.div
-              {...fade(0.75)}
-              className="mt-8 flex flex-wrap gap-3"
-            >
+            <motion.div {...slideUp(0.76)} className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#collection"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-7 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_44px_rgba(242,239,232,0.14)]"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-7 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.14)]"
               >
                 {t("hero.primaryCta")}
               </a>
               <a
                 href="#waitlist"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/14 bg-white/[0.035] px-7 text-[13px] font-semibold text-white transition duration-300 hover:border-white/24 hover:bg-white/[0.065]"
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/[0.13] bg-white/[0.03] px-7 text-[13px] font-semibold text-white/80 transition duration-300 hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
               >
                 {t("hero.secondaryCta")}
               </a>
             </motion.div>
 
-            {/* Feature pills */}
+            {/* Feature strip */}
             <motion.div
-              {...fade(0.85)}
-              className="mt-7 flex flex-wrap gap-x-5 gap-y-1.5 text-[9px] uppercase tracking-[0.24em] text-white/22"
+              {...fade(0.88)}
+              className="mt-7 flex flex-wrap gap-x-5 gap-y-1 text-[9px] uppercase tracking-[0.26em] text-white/20"
             >
               <span>{t("hero.feature1")}</span>
               <span className="text-white/10">—</span>
@@ -165,78 +191,71 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* PRODUCT SILHOUETTE */}
+          {/* ══ PRODUCT ══ */}
           <motion.div
             style={{ y: productY }}
-            {...fade(0.2)}
-            className="flex flex-col items-center md:w-[38%]"
+            {...fade(0.18)}
+            className="flex flex-col items-center md:w-[36%]"
           >
-            {/* Glow halo */}
-            <div className="absolute h-64 w-48 rounded-full bg-[#A8926E]/[0.06] blur-[80px]" />
+            {/* Glow */}
+            <div className="pointer-events-none absolute h-72 w-56 rounded-full bg-[#A8926E]/[0.055] blur-[90px]" />
 
-            {/* Float wrapper */}
             <motion.div
-              animate={{ y: [0, -11, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
               className="relative"
             >
-              <div className="relative mx-auto h-[380px] w-[240px] overflow-hidden rounded-[32px] border border-white/[0.09] bg-[#0d0d0f] shadow-[0_48px_96px_rgba(0,0,0,0.7)] md:h-[460px] md:w-[290px]">
-                {/* Layers */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_60%_15%,rgba(168,146,110,0.16),transparent)]" />
-                <div className="absolute inset-x-10 bottom-0 h-[80%] rounded-t-[90px] border border-white/[0.06] bg-gradient-to-b from-white/[0.055] to-transparent" />
-                <div className="absolute right-7 top-10 h-16 w-16 rounded-full border border-white/[0.06] bg-white/[0.015]" />
-                <div className="absolute right-5 top-6 h-2.5 w-2.5 rounded-full border border-white/[0.06] bg-white/[0.015]" />
+              <div className="relative mx-auto h-[360px] w-[230px] overflow-hidden rounded-[34px] border border-white/[0.08] bg-[#0c0c0e] shadow-[0_56px_100px_rgba(0,0,0,0.75)] md:h-[450px] md:w-[278px]">
 
-                {/* Left edge accent line */}
-                <div className="absolute left-0 top-[20%] h-[35%] w-px bg-gradient-to-b from-transparent via-[#A8926E]/20 to-transparent" />
+                {/* Gradient layers */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_48%_at_62%_14%,rgba(168,146,110,0.15),transparent)]" />
+                <div className="absolute inset-x-9 bottom-0 h-[78%] rounded-t-[88px] border border-white/[0.055] bg-gradient-to-b from-white/[0.05] to-transparent" />
+                <div className="absolute right-6 top-9 h-14 w-14 rounded-full border border-white/[0.055] bg-white/[0.012]" />
+                <div className="absolute right-4 top-5 h-2 w-2 rounded-full bg-[#A8926E]/20" />
+
+                {/* Vertical accent */}
+                <div className="absolute left-0 top-[22%] h-[32%] w-px bg-gradient-to-b from-transparent via-[#A8926E]/18 to-transparent" />
 
                 {/* Drop badge */}
-                <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-[#A8926E]/25 bg-[#A8926E]/[0.08] px-2.5 py-1">
-                  <span className="h-1 w-1 rounded-full bg-[#A8926E]/60" />
-                  <span className="text-[8px] uppercase tracking-[0.28em] text-[#A8926E]/80">
-                    Drop 01
-                  </span>
+                <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-[#A8926E]/20 bg-[#A8926E]/[0.07] px-2.5 py-[5px]">
+                  <span className="h-[5px] w-[5px] rounded-full bg-[#A8926E]/50" />
+                  <span className="text-[7.5px] uppercase tracking-[0.3em] text-[#A8926E]/75">Drop 01</span>
                 </div>
 
-                {/* Giant background number */}
-                <div className="absolute bottom-3 right-4 select-none font-[family-name:var(--font-cormorant)] text-[7rem] font-[300] italic leading-none text-white/[0.035]">
+                {/* Ghost number */}
+                <div className="absolute bottom-2 right-3 select-none font-[family-name:var(--font-cormorant)] text-[8rem] font-[300] italic leading-none text-white/[0.03]">
                   01
                 </div>
 
-                {/* KŪRA watermark */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.42em] text-white/25">
+                {/* KŪRA */}
+                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[9.5px] uppercase tracking-[0.44em] text-white/22">
                   KŪRA
                 </div>
               </div>
 
-              {/* Shadow beneath product */}
-              <div className="mx-auto mt-2 h-4 w-32 rounded-full bg-black/60 blur-xl" />
+              {/* Cast shadow */}
+              <div className="mx-auto mt-3 h-3 w-28 rounded-full bg-black/55 blur-xl" />
             </motion.div>
 
-            {/* Product meta */}
-            <motion.div {...fade(0.5)} className="mt-5 text-center">
-              <p className="text-[9px] uppercase tracking-[0.34em] text-white/22">
-                3 pièces · Séries limitées
-              </p>
-            </motion.div>
+            <motion.p {...fade(0.5)} className="mt-6 text-center text-[8.5px] uppercase tracking-[0.36em] text-white/18">
+              3&thinsp;pièces&thinsp;·&thinsp;Séries limitées
+            </motion.p>
           </motion.div>
 
         </div>
       </div>
 
-      {/* ── Scroll indicator ── */}
+      {/* Scroll indicator */}
       <motion.div
-        style={{ opacity: scrollOpacity }}
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2.5"
+        style={{ opacity: scrollO }}
+        className="absolute bottom-7 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
       >
-        <span className="text-[8px] uppercase tracking-[0.36em] text-white/20">
-          Scroll
-        </span>
+        <span className="text-[7.5px] uppercase tracking-[0.38em] text-white/18">Scroll</span>
         <motion.div
-          animate={{ scaleY: [1, 0.5, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ scaleY: [1, 0.4, 1] }}
+          transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
           style={{ originY: 0 }}
-          className="h-10 w-px bg-gradient-to-b from-white/18 to-transparent"
+          className="h-9 w-px bg-gradient-to-b from-white/15 to-transparent"
         />
       </motion.div>
     </section>

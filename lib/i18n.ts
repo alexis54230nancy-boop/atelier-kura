@@ -121,6 +121,16 @@ export const translations = {
     en: "French Limited Series",
     de: "Französische Limited Series",
   },
+  "hero.titleArticle": {
+    fr: "Le",
+    en: "",
+    de: "",
+  },
+  "hero.titleWord1": {
+    fr: "silence",
+    en: "Silence",
+    de: "Stille",
+  },
   "hero.titleLine1": {
     fr: "Le silence",
     en: "Silence",
@@ -268,6 +278,24 @@ export const translations = {
     fr: "Une garde-robe pensée pour durer, circuler, et habiter le quotidien avec intensité sans jamais crier.",
     en: "A wardrobe designed to last, to move, and to inhabit daily life with intensity without ever shouting.",
     de: "Eine Garderobe, entworfen um zu bleiben, sich zu bewegen und den Alltag mit Intensität zu begleiten, ohne je laut zu werden.",
+  },
+  "story.v1.label": { fr: "Mouvement", en: "Movement", de: "Bewegung" },
+  "story.v1.desc": {
+    fr: "Des silhouettes pensées pour le corps en action, jamais contraintes.",
+    en: "Silhouettes built for the body in motion, never constrained.",
+    de: "Silhouetten für den Körper in Bewegung, niemals eingeschränkt.",
+  },
+  "story.v2.label": { fr: "Retenue", en: "Restraint", de: "Zurückhaltung" },
+  "story.v2.desc": {
+    fr: "Moins de bruit, plus de sens. Chaque détail compte ou disparaît.",
+    en: "Less noise, more meaning. Every detail counts or disappears.",
+    de: "Weniger Lärm, mehr Bedeutung. Jedes Detail zählt oder verschwindet.",
+  },
+  "story.v3.label": { fr: "Précision", en: "Precision", de: "Präzision" },
+  "story.v3.desc": {
+    fr: "Coupes nettes, matières justes, finitions sans compromis.",
+    en: "Clean cuts, honest materials, uncompromising finish.",
+    de: "Klare Schnitte, ehrliche Materialien, kompromisslose Verarbeitung.",
   },
 
   "waitlist.eyebrow": {
