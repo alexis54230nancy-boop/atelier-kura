@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     locale: "fr_FR",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Atelier Kūra — Vêtements en séries limitées",
     description:
       "Atelier Kūra conçoit des vêtements en séries limitées, pensés pour le mouvement, la retenue et la précision. Drop 01 disponible.",

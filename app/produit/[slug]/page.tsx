@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import ProductDetail from "../../../components/ProductDetail";
 import {
   getLocalizedText,
@@ -7,6 +8,8 @@ import {
   products,
 } from "../../../lib/products";
 import { defaultLanguage } from "../../../lib/i18n";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://atelier--kura.com";
 
 type ProductPageProps = {
   params: Promise<{
@@ -32,9 +35,28 @@ export async function generateMetadata({
     };
   }
 
+  const name = getLocalizedText(product.name, defaultLanguage);
+  const description = getLocalizedText(product.shortDescription, defaultLanguage);
+  const imageUrl = product.image
+    ? `${SITE_URL}${product.image}`
+    : `${SITE_URL}/brand/og-image.jpg`;
+
   return {
-    title: `${getLocalizedText(product.name, defaultLanguage)} — Atelier Kūra`,
-    description: getLocalizedText(product.shortDescription, defaultLanguage),
+    title: `${name} — Atelier Kūra`,
+    description,
+    openGraph: {
+      title: `${name} — Atelier Kūra`,
+      description,
+      url: `${SITE_URL}/produit/${product.slug}`,
+      type: "website",
+      images: [{ url: imageUrl, width: 800, height: 1000, alt: name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${name} — Atelier Kūra`,
+      description,
+      images: [imageUrl],
+    },
   };
 }
 
@@ -46,5 +68,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  return <ProductDetail product={product} />;
+  const name = getLocalizedText(product.name, defaultLanguage);
+  const description = getLocalizedText(product.description, defaultLanguage);
+  const totalStock = Object.values(product.stock).reduce((s, n) => s + n, 0);
+  const imageUrl = product.image
+    ? `${SITE_URL}${product.image}`
+    : undefined;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name,
+    description,
+    brand: { "@type": "Brand", name: "Atelier Kūra" },
+    ...(imageUrl && { image: imageUrl }),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EUR",
+      price: (product.price / 100).toFixed(2),
+      availability:
+        totalStock > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+      url: `${SITE_URL}/produit/${product.slug}`,
+      seller: { "@type": "Organization", name: "Atelier Kūra" },
+    },
+  };
+
+  return (
+    <>
+      <Script
+        id={`jsonld-${product.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ProductDetail product={product} />
+    </>
+  );
 }
