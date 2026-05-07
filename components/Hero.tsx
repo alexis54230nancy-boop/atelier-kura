@@ -166,7 +166,7 @@ export default function Hero() {
             <motion.div {...slideUp(0.76)} className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#collection"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-7 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.14)]"
+                className="shimmer inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-7 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.14)]"
               >
                 {t("hero.primaryCta")}
               </a>

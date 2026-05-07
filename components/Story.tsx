@@ -73,10 +73,18 @@ export default function Story() {
           <motion.div
             key={label}
             {...inV(0.08 + i * 0.1)}
-            className="group relative overflow-hidden border-white/[0.06] p-8 transition duration-500 hover:bg-white/[0.018] md:p-10"
+            className="group relative overflow-hidden border-white/[0.06] p-8 transition duration-500 hover:bg-white/[0.03] md:p-10"
           >
+            {/* Top gold border on hover */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileHover={{ scaleX: 1 }}
+              style={{ originX: 0 }}
+              className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-[#A8926E]/45 to-transparent"
+            />
+
             {/* Roman numeral */}
-            <div className="mb-5 font-[family-name:var(--font-after)] text-[11px] italic tracking-[0.15em] text-[#A8926E]/40">
+            <div className="mb-5 font-[family-name:var(--font-after)] text-[11px] italic tracking-[0.15em] text-[#A8926E]/40 transition duration-500 group-hover:text-[#A8926E]/65">
               {num}
             </div>
 
@@ -86,11 +94,11 @@ export default function Story() {
             </h3>
 
             {/* Description */}
-            <p className="mt-4 text-[13px] leading-[1.82] text-white/38">
+            <p className="mt-4 text-[13px] leading-[1.82] text-white/38 transition duration-500 group-hover:text-white/52">
               {desc}
             </p>
 
-            {/* Hover accent line */}
+            {/* Bottom accent line */}
             <motion.div
               initial={{ scaleX: 0 }}
               whileHover={{ scaleX: 1 }}

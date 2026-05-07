@@ -70,7 +70,7 @@ export default function Waitlist() {
           />
           <button
             type="submit"
-            className="h-12 shrink-0 rounded-full bg-[#f2efe8] px-8 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.15)]"
+            className="shimmer h-12 shrink-0 rounded-full bg-[#f2efe8] px-8 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.15)]"
           >
             {t("waitlist.button")}
           </button>

@@ -102,3 +102,29 @@ h2 {
     animation: none;
   }
 }
+
+/* CTA shimmer — light sweep on hover */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22) 50%, transparent);
+}
+
+.shimmer:hover::after {
+  animation: shimmerSlide 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes shimmerSlide {
+  to {
+    left: 100%;
+  }
+}
