@@ -16,6 +16,12 @@ import {
   type Language,
 } from "../lib/i18n";
 
+const SITE_TITLES: Record<Language, string> = {
+  fr: "Atelier Kūra — Vêtements en séries limitées",
+  en: "Atelier Kūra — Limited-Series Garments",
+  de: "Atelier Kūra — Kleidung in limitierten Serien",
+};
+
 const STORAGE_KEY = "kura-language";
 
 type I18nContextType = {
@@ -46,9 +52,16 @@ export default function LanguageProvider({
     }
   }, []);
 
-  // Keep <html lang> in sync
+  // Keep <html lang> and tab title in sync
   useEffect(() => {
     document.documentElement.lang = language;
+    // Only update title if it still matches one of our known site titles
+    // (don't overwrite product-page titles set by Next.js)
+    const current = document.title;
+    const isRootTitle = Object.values(SITE_TITLES).some((t) => current === t);
+    if (isRootTitle || current === "") {
+      document.title = SITE_TITLES[language];
+    }
   }, [language]);
 
   const setLanguage = useCallback((lang: Language) => {

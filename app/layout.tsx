@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     icon: "/brand/favicons/favicon.svg",
     apple: "/brand/favicons/apple-touch-icon.png",
   },
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      fr: SITE_URL,
+      en: SITE_URL,
+      de: SITE_URL,
+    },
+  },
   openGraph: {
     type: "website",
     siteName: "Atelier Kūra",
@@ -40,6 +48,7 @@ export const metadata: Metadata = {
       "Atelier Kūra conçoit des vêtements en séries limitées, pensés pour le mouvement, la retenue et la précision. Drop 01 disponible.",
     url: SITE_URL,
     locale: "fr_FR",
+    alternateLocale: ["en_US", "de_DE"],
   },
   twitter: {
     card: "summary_large_image",

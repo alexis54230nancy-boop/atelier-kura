@@ -41,15 +41,26 @@ export async function generateMetadata({
     ? `${SITE_URL}${product.image}`
     : `${SITE_URL}/brand/og-image.jpg`;
 
+  const productUrl = `${SITE_URL}/produit/${product.slug}`;
+
   return {
     title: `${name} — Atelier Kūra`,
     description,
+    alternates: {
+      canonical: productUrl,
+      languages: {
+        fr: productUrl,
+        en: productUrl,
+        de: productUrl,
+      },
+    },
     openGraph: {
       title: `${name} — Atelier Kūra`,
       description,
-      url: `${SITE_URL}/produit/${product.slug}`,
+      url: productUrl,
       type: "website",
       images: [{ url: imageUrl, width: 800, height: 1000, alt: name }],
+      alternateLocale: ["en_US", "de_DE"],
     },
     twitter: {
       card: "summary_large_image",
