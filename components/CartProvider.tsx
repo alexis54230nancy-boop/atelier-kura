@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useSpring, useTransform, useMotionValue } from "framer-motion";
 import { useI18n } from "./LanguageProvider";
 
 export type CartItem = {
@@ -50,6 +50,18 @@ export function useCart() {
 
 function formatCartPrice(price: number) {
   return `${(price / 100).toFixed(2)}€`;
+}
+
+function AnimatedTotal({ total }: { total: number }) {
+  const motionVal = useMotionValue(total);
+  const spring = useSpring(motionVal, { stiffness: 120, damping: 18 });
+  const display = useTransform(spring, (v) => `${(v / 100).toFixed(2)}€`);
+
+  useEffect(() => {
+    motionVal.set(total);
+  }, [total, motionVal]);
+
+  return <motion.span className="font-semibold">{display}</motion.span>;
 }
 
 export default function CartProvider({ children }: { children: ReactNode }) {
@@ -382,7 +394,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                 </div>
                 <div className="flex items-center justify-between text-lg">
                   <span>{t("cart.total")}</span>
-                  <span className="font-semibold">{formatCartPrice(total)}</span>
+                  <AnimatedTotal total={total} />
                 </div>
                 <p className="mt-3 text-sm leading-6 text-white/50">
                   {t("cart.shipping")}

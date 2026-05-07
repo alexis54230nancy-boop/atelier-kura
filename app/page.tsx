@@ -113,7 +113,7 @@ export default function Home() {
                   className="group relative flex min-w-[72vw] flex-col border-r border-white/[0.06] transition duration-500 hover:bg-white/[0.025] md:min-w-0"
                 >
                   {/* Product visual */}
-                  <div className="relative aspect-[4/5] overflow-hidden bg-black/20">
+                  <div data-cursor="view" className="relative aspect-[4/5] overflow-hidden bg-black/20">
                     {item.image ? (
                       <>
                         <Image
@@ -141,6 +141,16 @@ export default function Home() {
                     <div className="absolute right-4 bottom-4 font-[family-name:var(--font-after)] text-5xl font-light leading-none text-white/[0.06]">
                       0{index + 1}
                     </div>
+
+                    {/* Slide-up reveal */}
+                    <div className="absolute inset-x-0 bottom-0 translate-y-full opacity-0 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100">
+                      <div className="flex items-center justify-between border-t border-white/[0.08] bg-black/80 px-5 py-4 backdrop-blur-md">
+                        <span className="text-[11px] uppercase tracking-[0.3em] text-white/80">{t("shop.viewProduct")}</span>
+                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden className="text-white/40">
+                          <path d="M1 4h12M9 1l3 3-3 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Info */}
@@ -150,9 +160,6 @@ export default function Home() {
                         <h3 className="text-sm font-semibold tracking-[-0.02em] transition duration-300 group-hover:text-[#d9d4c7]">
                           {name}
                         </h3>
-                        <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-[#A8926E]">
-                          {t("shop.viewProduct")}
-                        </p>
                       </div>
                       <span className="text-sm font-semibold text-[#F2EFE8]">
                         {formatPrice(item.price)}

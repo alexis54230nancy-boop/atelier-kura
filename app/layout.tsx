@@ -6,6 +6,7 @@ import LanguageProvider from "../components/LanguageProvider";
 import Cursor from "../components/Cursor";
 import ScrollProgress from "../components/ScrollProgress";
 import IntroScreen from "../components/IntroScreen";
+import ScrollToTop from "../components/ScrollToTop";
 import "./globals.css";
 
 const inter = Inter({
@@ -76,6 +77,7 @@ export default function RootLayout({
         <div className="grain" />
         <IntroScreen />
         <ScrollProgress />
+        <ScrollToTop />
         <Cursor />
 
         <LanguageProvider>

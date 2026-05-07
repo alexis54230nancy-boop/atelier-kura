@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { languages } from "../lib/i18n";
 import { useI18n } from "./LanguageProvider";
 
@@ -21,14 +22,26 @@ export default function LanguageSwitcher() {
             onClick={() => setLanguage(item.code)}
             aria-pressed={isActive}
             title={item.label}
-            className={`inline-flex h-9 items-center gap-1 rounded-full px-3 text-xs font-semibold transition ${
-              isActive
-                ? "bg-[#F2EFE8] text-black"
-                : "text-white/65 hover:bg-white/10 hover:text-white"
-            }`}
+            className="relative inline-flex h-9 items-center gap-1 rounded-full px-3 text-xs font-semibold transition-colors"
           >
-            <span aria-hidden="true">{item.flag}</span>
-            <span>{item.shortLabel}</span>
+            {isActive && (
+              <motion.span
+                layoutId="lang-pill"
+                className="absolute inset-0 rounded-full bg-[#F2EFE8]"
+                transition={{ type: "spring", damping: 26, stiffness: 320 }}
+              />
+            )}
+            <span
+              aria-hidden="true"
+              className={`relative z-10 transition-colors duration-200 ${isActive ? "text-black" : "text-white/65"}`}
+            >
+              {item.flag}
+            </span>
+            <span
+              className={`relative z-10 transition-colors duration-200 ${isActive ? "text-black" : "text-white/65"}`}
+            >
+              {item.shortLabel}
+            </span>
           </button>
         );
       })}
