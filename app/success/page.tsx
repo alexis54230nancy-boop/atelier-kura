@@ -73,20 +73,23 @@ export default function SuccessPage() {
             transition={{ duration: 0.7, ease: E }}
             className="rounded-[34px] border border-white/10 bg-white/[0.035] p-8 text-center shadow-2xl backdrop-blur-xl md:p-14"
           >
-            {/* SVG checkmark */}
+            {/* SVG checkmark — cercle + tracé animé */}
             <motion.div
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.15, ease: E }}
+              transition={{ duration: 0.55, delay: 0.15, ease: E }}
               className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[#A8926E]/30 bg-[#A8926E]/[0.08]"
             >
               <svg width="22" height="17" viewBox="0 0 22 17" fill="none" aria-hidden>
-                <path
+                <motion.path
                   d="M1.5 8.5L8 15L20.5 2"
                   stroke="#A8926E"
                   strokeWidth="1.8"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.55, delay: 0.62, ease: E }}
                 />
               </svg>
             </motion.div>

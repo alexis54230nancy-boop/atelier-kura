@@ -309,62 +309,69 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                   </div>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {cart.map((item) => (
-                    <div
-                      key={item.id}
-                      className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4 backdrop-blur-xl transition duration-300 hover:border-white/15 hover:bg-white/[0.05]"
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <h3 className="font-semibold tracking-[-0.02em]">
-                            {item.name}
-                          </h3>
-                          <p className="mt-1 text-sm text-white/60">
-                            {t("cart.size")} : {item.size}
-                          </p>
-                          <p className="mt-1 text-sm text-white/60">
-                            {formatCartPrice(item.price)} / {t("cart.unit")}
-                          </p>
+                <motion.div layout className="space-y-4">
+                  <AnimatePresence initial={false}>
+                    {cart.map((item) => (
+                      <motion.div
+                        key={item.id}
+                        layout
+                        initial={{ opacity: 0, x: 18, scale: 0.97 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: -14, scale: 0.96, transition: { duration: 0.2 } }}
+                        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                        className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4 backdrop-blur-xl"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <h3 className="font-semibold tracking-[-0.02em]">
+                              {item.name}
+                            </h3>
+                            <p className="mt-1 text-sm text-white/60">
+                              {t("cart.size")} : {item.size}
+                            </p>
+                            <p className="mt-1 text-sm text-white/60">
+                              {formatCartPrice(item.price)} / {t("cart.unit")}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-sm text-[#d9d4c7] transition hover:text-white"
+                          >
+                            {t("cart.remove")}
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-sm text-[#d9d4c7] transition hover:text-white"
-                        >
-                          {t("cart.remove")}
-                        </button>
-                      </div>
 
-                      <div className="mt-4 flex items-center justify-between gap-3">
-                        <div className="text-xs uppercase tracking-[0.18em] text-white/35">
-                          {copy.quantity[language]}
+                        <div className="mt-4 flex items-center justify-between gap-3">
+                          <div className="text-xs uppercase tracking-[0.18em] text-white/35">
+                            {copy.quantity[language]}
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => decreaseQuantity(item.id)}
+                              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/30 text-white transition hover:bg-white/10"
+                              aria-label="Decrease quantity"
+                            >
+                              -
+                            </button>
+                            <span className="min-w-6 text-center">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => increaseQuantity(item.id)}
+                              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/30 text-white transition hover:bg-white/10"
+                              aria-label="Increase quantity"
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={() => decreaseQuantity(item.id)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/30 text-white transition hover:bg-white/10"
-                            aria-label="Decrease quantity"
-                          >
-                            -
-                          </button>
-                          <span className="min-w-6 text-center">
-                            {item.quantity}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => increaseQuantity(item.id)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/30 text-white transition hover:bg-white/10"
-                            aria-label="Increase quantity"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
               )}
             </div>
 

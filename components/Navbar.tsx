@@ -7,6 +7,7 @@ import { useI18n } from "./LanguageProvider";
 import { useCart } from "./CartProvider";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "/shop", key: "nav.shop" },
@@ -20,6 +21,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const { t } = useI18n();
   const { openCart, totalItems } = useCart();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -65,15 +67,25 @@ export default function Navbar() {
 
           {/* Desktop links — ultra-spaced uppercase */}
           <div className="hidden items-center gap-8 md:flex">
-            {NAV_LINKS.map(({ href, key }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-[10px] uppercase tracking-[0.25em] text-white/45 transition duration-300 hover:text-white/90"
-              >
-                {t(key)}
-              </Link>
-            ))}
+            {NAV_LINKS.map(({ href, key }) => {
+              const isActive = !href.includes("#") && pathname.startsWith(href);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`relative text-[10px] uppercase tracking-[0.25em] transition duration-300 hover:text-white/90 ${isActive ? "text-white/85" : "text-white/45"}`}
+                >
+                  {t(key)}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active"
+                      className="absolute -bottom-1 left-0 h-px w-full bg-[#A8926E]/60"
+                      transition={{ type: "spring", damping: 28, stiffness: 300 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right controls */}
@@ -137,22 +149,25 @@ export default function Navbar() {
               className="fixed right-0 top-0 bottom-0 z-50 flex w-[68vw] max-w-[280px] flex-col border-l border-white/[0.06] bg-[#0a0a0b]/98 px-8 pb-10 pt-24 backdrop-blur-xl md:hidden"
             >
               <nav className="flex flex-col gap-8">
-                {NAV_LINKS.map(({ href, key }, i) => (
-                  <motion.div
-                    key={href}
-                    initial={{ opacity: 0, x: 14 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + i * 0.04, duration: 0.24 }}
-                  >
-                    <Link
-                      href={href}
-                      onClick={() => setOpen(false)}
-                      className="text-[11px] uppercase tracking-[0.3em] text-white/50 transition-colors hover:text-white/90"
+                {NAV_LINKS.map(({ href, key }, i) => {
+                  const isActive = !href.includes("#") && pathname.startsWith(href);
+                  return (
+                    <motion.div
+                      key={href}
+                      initial={{ opacity: 0, x: 14 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 + i * 0.04, duration: 0.24 }}
                     >
-                      {t(key)}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        href={href}
+                        onClick={() => setOpen(false)}
+                        className={`text-[11px] uppercase tracking-[0.3em] transition-colors hover:text-white/90 ${isActive ? "text-[#A8926E]" : "text-white/50"}`}
+                      >
+                        {t(key)}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </nav>
 
               <div className="mt-auto space-y-2">

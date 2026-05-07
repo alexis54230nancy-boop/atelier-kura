@@ -105,7 +105,11 @@ export default function ProductDetail({ product }: { product: Product }) {
                         {name}
                       </div>
                     </div>
-                    <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-black/40" />
+                    <motion.div
+                      animate={{ y: [0, -14, 0] }}
+                      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-black/40"
+                    />
                   </>
                 )}
               </div>
