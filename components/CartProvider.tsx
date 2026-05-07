@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { motion } from "framer-motion";
 import { useI18n } from "./LanguageProvider";
 
 export type CartItem = {
@@ -233,12 +234,21 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       {children}
 
       {cartOpen && (
-        <div
-          className="fixed inset-0 z-[60] animate-[cartOverlayIn_240ms_ease-out_both] bg-black/60 backdrop-blur-sm"
+        <motion.div
+          key="cart-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.22 }}
+          className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
           onClick={() => setCartOpen(false)}
         >
-          <aside
-            className="absolute right-0 top-0 flex h-full w-full max-w-md animate-[cartPanelIn_360ms_ease-out_both] flex-col border-l border-white/10 bg-[#0f0f11]/90 shadow-2xl backdrop-blur-xl"
+          <motion.aside
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{ type: "spring", damping: 34, stiffness: 320 }}
+            className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col border-l border-white/10 bg-[#0f0f11]/92 shadow-2xl backdrop-blur-xl"
             onClick={(event) => event.stopPropagation()}
             aria-label={t("cart.title")}
           >
@@ -363,29 +373,22 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                 {loading ? t("cart.redirecting") : t("cart.checkout")}
               </button>
             </div>
-          </aside>
-        </div>
+          </motion.aside>
+        </motion.div>
       )}
 
       {toast && (
-        <div
+        <motion.div
           key={toast}
-          className="fixed bottom-6 left-1/2 z-[9999] -translate-x-1/2 animate-[toastIn_250ms_ease-out_both] whitespace-nowrap rounded-2xl border border-white/15 bg-[#0f0f11]/95 px-6 py-3.5 text-sm text-white/90 shadow-2xl backdrop-blur-xl"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 8 }}
+          transition={{ duration: 0.22 }}
+          className="fixed bottom-6 left-1/2 z-[9999] -translate-x-1/2 whitespace-nowrap rounded-2xl border border-white/15 bg-[#0f0f11]/95 px-6 py-3.5 text-sm text-white/90 shadow-2xl backdrop-blur-xl"
         >
           {toast}
-        </div>
+        </motion.div>
       )}
-
-      <style jsx global>{`
-        @keyframes cartOverlayIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes cartPanelIn {
-          from { opacity: 0; transform: translateX(24px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-      `}</style>
     </CartContext.Provider>
   );
 }

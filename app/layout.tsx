@@ -49,12 +49,14 @@ export const metadata: Metadata = {
     url: SITE_URL,
     locale: "fr_FR",
     alternateLocale: ["en_US", "de_DE"],
+    images: [{ url: `${SITE_URL}/brand/og-image.jpg`, width: 1200, height: 630, alt: "Atelier Kūra" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Atelier Kūra — Vêtements en séries limitées",
     description:
       "Atelier Kūra conçoit des vêtements en séries limitées, pensés pour le mouvement, la retenue et la précision. Drop 01 disponible.",
+    images: [`${SITE_URL}/brand/og-image.jpg`],
   },
 };
 
