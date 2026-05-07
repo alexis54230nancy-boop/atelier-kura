@@ -99,10 +99,13 @@ export default function ProductDetail({ product }: { product: Product }) {
                   />
                 ) : (
                   <>
-                    <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/10 bg-gradient-to-b from-white/[0.08] to-black/40" />
-                    <div className="relative flex h-full items-center justify-center text-sm uppercase tracking-[0.3em] text-white/35">
-                      {visualLabel}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_35%,rgba(168,146,110,0.09),transparent)]" />
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden px-4">
+                      <div className="select-none text-center font-[family-name:var(--font-after)] text-[clamp(4rem,18vw,10rem)] font-[300] italic leading-[0.88] tracking-[-0.04em] text-white/[0.038]">
+                        {name}
+                      </div>
                     </div>
+                    <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[120px] border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-black/40" />
                   </>
                 )}
               </div>
@@ -197,7 +200,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                 type="button"
                 disabled={!canAdd}
                 onClick={handleAddToCart}
-                className="mt-8 min-h-14 w-full rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_16px_50px_rgba(242,239,232,0.13)] disabled:cursor-not-allowed disabled:opacity-40"
+                className="shimmer mt-8 min-h-14 w-full rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_16px_50px_rgba(242,239,232,0.13)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {buttonLabel}
               </button>

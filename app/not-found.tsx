@@ -29,7 +29,7 @@ export default function NotFound() {
             <div className="mt-2 flex flex-wrap justify-center gap-4">
               <Link
                 href="/"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#F2EFE8] px-7 text-[13px] font-semibold text-black transition hover:-translate-y-[1px]"
+                className="shimmer inline-flex min-h-11 items-center justify-center rounded-full bg-[#F2EFE8] px-7 text-[13px] font-semibold text-black transition hover:-translate-y-[1px]"
               >
                 Accueil
               </Link>

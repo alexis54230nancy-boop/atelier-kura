@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useI18n } from "./LanguageProvider";
+import MagneticWrapper from "./MagneticWrapper";
 
 const E = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -164,18 +165,22 @@ export default function Hero() {
 
             {/* CTAs */}
             <motion.div {...slideUp(0.76)} className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#collection"
-                className="shimmer inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-7 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.14)]"
-              >
-                {t("hero.primaryCta")}
-              </a>
-              <a
-                href="#waitlist"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/[0.13] bg-white/[0.03] px-7 text-[13px] font-semibold text-white/80 transition duration-300 hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
-              >
-                {t("hero.secondaryCta")}
-              </a>
+              <MagneticWrapper>
+                <a
+                  href="#collection"
+                  className="shimmer inline-flex min-h-11 items-center justify-center rounded-full bg-[#f2efe8] px-7 text-[13px] font-semibold text-black transition duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_40px_rgba(242,239,232,0.14)]"
+                >
+                  {t("hero.primaryCta")}
+                </a>
+              </MagneticWrapper>
+              <MagneticWrapper>
+                <a
+                  href="#waitlist"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/[0.13] bg-white/[0.03] px-7 text-[13px] font-semibold text-white/80 transition duration-300 hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
+                >
+                  {t("hero.secondaryCta")}
+                </a>
+              </MagneticWrapper>
             </motion.div>
 
             {/* Feature strip */}

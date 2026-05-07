@@ -147,7 +147,7 @@ export default function SuccessPage() {
           >
             <Link
               href="/shop"
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#F2EFE8] px-7 text-sm font-semibold text-black transition hover:-translate-y-[1px]"
+              className="shimmer inline-flex min-h-12 items-center justify-center rounded-full bg-[#F2EFE8] px-7 text-sm font-semibold text-black transition hover:-translate-y-[1px]"
             >
               {copy.cta1[language]}
             </Link>

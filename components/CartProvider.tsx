@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useI18n } from "./LanguageProvider";
 
 export type CartItem = {
@@ -233,7 +233,8 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     >
       {children}
 
-      {cartOpen && (
+      <AnimatePresence>
+        {cartOpen && (
         <motion.div
           key="cart-overlay"
           initial={{ opacity: 0 }}
@@ -258,7 +259,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                   <div className="text-[10px] uppercase tracking-[0.28em] text-[#A8926E]">
                     Atelier Kūra
                   </div>
-                  <h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                  <h2 className="mt-2 font-[family-name:var(--font-after)] text-[2rem] font-[300] leading-[0.92] tracking-[-0.03em] text-[#f2efe8]">
                     {t("cart.title")}
                   </h2>
                 </div>
@@ -368,27 +369,30 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                 type="button"
                 onClick={handleCheckout}
                 disabled={cart.length === 0 || loading}
-                className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[1px] hover:shadow-[0_18px_60px_rgba(242,239,232,0.13)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                className="shimmer mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[1px] hover:shadow-[0_18px_60px_rgba(242,239,232,0.13)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
                 {loading ? t("cart.redirecting") : t("cart.checkout")}
               </button>
             </div>
           </motion.aside>
         </motion.div>
-      )}
+        )}
+      </AnimatePresence>
 
-      {toast && (
-        <motion.div
-          key={toast}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 8 }}
-          transition={{ duration: 0.22 }}
-          className="fixed bottom-6 left-1/2 z-[9999] -translate-x-1/2 whitespace-nowrap rounded-2xl border border-white/15 bg-[#0f0f11]/95 px-6 py-3.5 text-sm text-white/90 shadow-2xl backdrop-blur-xl"
-        >
-          {toast}
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            key={toast}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.22 }}
+            className="fixed bottom-6 left-1/2 z-[9999] -translate-x-1/2 whitespace-nowrap rounded-2xl border border-white/15 bg-[#0f0f11]/95 px-6 py-3.5 text-sm text-white/90 shadow-2xl backdrop-blur-xl"
+          >
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </CartContext.Provider>
   );
 }
