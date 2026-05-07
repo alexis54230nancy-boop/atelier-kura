@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useI18n } from "./LanguageProvider";
 
@@ -286,10 +287,26 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
             <div className="flex-1 overflow-y-auto p-6">
               {cart.length === 0 ? (
-                <div className="flex min-h-[320px] items-center justify-center rounded-[26px] border border-white/10 bg-white/[0.025] p-8 text-center">
-                  <p className="text-sm leading-7 text-white/55">
-                    {t("cart.empty")}
-                  </p>
+                <div className="relative flex min-h-[320px] flex-col items-center justify-center overflow-hidden rounded-[26px] border border-white/[0.07] bg-white/[0.02] p-8 text-center">
+                  {/* Ghost KŪRA */}
+                  <div className="pointer-events-none absolute inset-0 flex items-end justify-center select-none overflow-hidden">
+                    <span className="font-[family-name:var(--font-after)] text-[9rem] font-[300] italic leading-none text-white/[0.04]">
+                      Kūra
+                    </span>
+                  </div>
+                  <div className="relative flex flex-col items-center gap-5">
+                    <div className="h-px w-8 bg-[#A8926E]/35" />
+                    <p className="text-[11px] uppercase tracking-[0.3em] text-white/38">
+                      {t("cart.empty")}
+                    </p>
+                    <Link
+                      href="/shop"
+                      onClick={() => setCartOpen(false)}
+                      className="text-[10px] uppercase tracking-[0.26em] text-[#A8926E] transition duration-200 hover:text-[#d9c79c]"
+                    >
+                      {t("nav.shop")} →
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -369,8 +386,14 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                 type="button"
                 onClick={handleCheckout}
                 disabled={cart.length === 0 || loading}
-                className="shimmer mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[1px] hover:shadow-[0_18px_60px_rgba(242,239,232,0.13)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                className="shimmer mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-[#F2EFE8] px-6 font-semibold text-black transition duration-300 hover:-translate-y-[1px] hover:shadow-[0_18px_60px_rgba(242,239,232,0.13)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
+                {loading && (
+                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" className="opacity-20" />
+                    <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="opacity-75" />
+                  </svg>
+                )}
                 {loading ? t("cart.redirecting") : t("cart.checkout")}
               </button>
             </div>

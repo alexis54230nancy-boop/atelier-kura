@@ -83,7 +83,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
             {/* Image */}
             <div className="rounded-[34px] border border-white/10 bg-white/[0.035] p-6 shadow-2xl backdrop-blur-xl">
-              <div className="group relative aspect-[4/5] overflow-hidden rounded-[28px] border border-white/10 bg-black/30">
+              <div data-cursor="view" className="group relative aspect-[4/5] overflow-hidden rounded-[28px] border border-white/10 bg-black/30">
                 <div className="absolute left-5 top-5 z-10 rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/45 backdrop-blur-xl">
                   {product.collection}
                 </div>
@@ -264,7 +264,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                     href={`/produit/${item.slug}`}
                     className="group relative flex flex-col bg-[#0b0b0c] transition duration-500 hover:bg-white/[0.022]"
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden bg-black/40">
+                    <div data-cursor="view" className="relative aspect-[4/5] overflow-hidden bg-black/40">
                       {item.image ? (
                         <>
                           <Image
@@ -290,10 +290,14 @@ export default function ProductDetail({ product }: { product: Product }) {
                       <div className="absolute left-5 top-5 text-[9px] uppercase tracking-[0.3em] text-white/30">
                         {relLabel}
                       </div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-400 group-hover:opacity-100">
-                        <span className="rounded-full border border-white/20 bg-black/55 px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-white/80 backdrop-blur-sm">
-                          {t("shop.viewProduct")} →
-                        </span>
+                      {/* Slide-up reveal */}
+                      <div className="absolute inset-x-0 bottom-0 translate-y-full opacity-0 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100">
+                        <div className="flex items-center justify-between border-t border-white/[0.08] bg-black/80 px-5 py-4 backdrop-blur-md">
+                          <span className="text-[11px] uppercase tracking-[0.3em] text-white/80">{t("shop.viewProduct")}</span>
+                          <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden className="text-white/40">
+                            <path d="M1 4h12M9 1l3 3-3 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
                       </div>
                     </div>
                     <div className="border-t border-white/[0.06] p-5">

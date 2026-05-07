@@ -47,7 +47,6 @@ export default function ShopPage() {
             {products.map((product, index) => {
               const name = getLocalizedText(product.name, language);
               const shortDescription = getLocalizedText(product.shortDescription, language);
-              const visualLabel = getLocalizedText(product.visualLabel, language);
               const totalStock = Object.values(product.stock).reduce((s, n) => s + n, 0);
 
               return (
@@ -63,7 +62,7 @@ export default function ShopPage() {
                     className="group relative flex flex-col bg-[#0b0b0c] transition duration-500 hover:bg-white/[0.022]"
                   >
                     {/* Image zone */}
-                    <div className="relative aspect-[4/5] overflow-hidden bg-black/40">
+                    <div data-cursor="view" className="relative aspect-[4/5] overflow-hidden bg-black/40">
                       {product.image ? (
                         <>
                           <Image
@@ -103,11 +102,14 @@ export default function ShopPage() {
                         </div>
                       )}
 
-                      {/* Hover reveal overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-400 group-hover:opacity-100">
-                        <span className="rounded-full border border-white/20 bg-black/55 px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-white/80 backdrop-blur-sm">
-                          {t("shop.viewProduct")} →
-                        </span>
+                      {/* Slide-up reveal */}
+                      <div className="absolute inset-x-0 bottom-0 translate-y-full opacity-0 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100">
+                        <div className="flex items-center justify-between border-t border-white/[0.08] bg-black/80 px-5 py-4 backdrop-blur-md">
+                          <span className="text-[11px] uppercase tracking-[0.3em] text-white/80">{t("shop.viewProduct")}</span>
+                          <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden className="text-white/40">
+                            <path d="M1 4h12M9 1l3 3-3 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
                       </div>
                     </div>
 
