@@ -80,6 +80,11 @@ export default function ShopPage() {
                           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_62%_18%,rgba(168,146,110,0.11),transparent)]" />
                           <div className="absolute inset-x-10 bottom-0 h-[82%] rounded-t-[100px] border border-white/[0.07] bg-gradient-to-b from-white/[0.06] to-black/40 transition duration-700 group-hover:scale-[1.03]" />
                           <div className="absolute right-6 top-8 h-12 w-12 rounded-full border border-white/[0.07] bg-white/[0.02]" />
+                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden px-4">
+                            <div className="select-none text-center font-[family-name:var(--font-after)] text-[clamp(3.5rem,14vw,8rem)] font-[300] italic leading-[0.88] tracking-[-0.04em] text-white/[0.038] transition duration-700 group-hover:text-white/[0.055]">
+                              {name}
+                            </div>
+                          </div>
                         </>
                       )}
 

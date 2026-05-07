@@ -32,7 +32,7 @@ export default function Footer() {
             ["/capsule", t("nav.capsule")],
             ["/guide-tailles", t("footer.sizeGuide")],
           ].map(([href, label]) => (
-            <Link key={href} href={href} className="block transition duration-200 hover:text-white/80">
+            <Link key={href} href={href} className="block transition duration-200 hover:translate-x-1 hover:text-white/80">
               {label}
             </Link>
           ))}
@@ -47,7 +47,7 @@ export default function Footer() {
             ["/fabrication", t("nav.fabrication")],
             ["/futures", t("nav.futures")],
           ].map(([href, label]) => (
-            <Link key={href} href={href} className="block transition duration-200 hover:text-white/80">
+            <Link key={href} href={href} className="block transition duration-200 hover:translate-x-1 hover:text-white/80">
               {label}
             </Link>
           ))}
@@ -65,7 +65,7 @@ export default function Footer() {
             ["/cgv", t("footer.terms")],
             ["/mentions-legales", t("footer.legal")],
           ].map(([href, label]) => (
-            <Link key={href} href={href} className="block transition duration-200 hover:text-white/80">
+            <Link key={href} href={href} className="block transition duration-200 hover:translate-x-1 hover:text-white/80">
               {label}
             </Link>
           ))}
