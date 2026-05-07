@@ -121,7 +121,7 @@ export default function RetoursPage() {
               {copy.eyebrow[language]}
             </div>
 
-            <h1 className="mt-4 text-5xl font-semibold leading-[0.95] tracking-[-0.06em] md:text-7xl">
+            <h1 className="mt-4 font-[family-name:var(--font-after)] text-[clamp(2.4rem,5vw,4rem)] font-[300] leading-[0.9] tracking-[-0.035em] text-[#f2efe8]">
               {copy.title[language]}
             </h1>
 

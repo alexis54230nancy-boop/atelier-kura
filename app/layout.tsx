@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import CartProvider from "../components/CartProvider";
 import LanguageProvider from "../components/LanguageProvider";
 import Cursor from "../components/Cursor";
+import ScrollProgress from "../components/ScrollProgress";
 import "./globals.css";
 
 const inter = Inter({
@@ -72,6 +73,7 @@ export default function RootLayout({
       >
         <div className="site-bg" />
         <div className="grain" />
+        <ScrollProgress />
         <Cursor />
 
         <LanguageProvider>
